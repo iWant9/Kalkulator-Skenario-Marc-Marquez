@@ -17,6 +17,22 @@
   font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
 }
 
+/* Racing styling enhancements */
+.racing-carbon {
+  background-image: radial-gradient(rgba(226, 6, 19, 0.04) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+.dark .racing-carbon {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+.racing-glow-red {
+  box-shadow: 0 0 25px -5px rgba(226, 6, 19, 0.3);
+}
+.racing-glow-gold {
+  box-shadow: 0 0 25px -5px rgba(255, 204, 0, 0.3);
+}
+
 /* Custom scrollbars for preset bar */
 .scrollbar-thin::-webkit-scrollbar {
   height: 4px;

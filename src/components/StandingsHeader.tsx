@@ -11,26 +11,31 @@ interface StandingsHeaderProps {
 export const StandingsHeader: React.FC<StandingsHeaderProps> = ({ onOpenSupport, onReset }) => {
   return (
     <div className="mb-5">
-      {/* Kotak Skenario Juara Dunia MotoGP */}
-      <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl p-4 sm:p-5 mb-3 shadow-xs transition-colors">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-          <h1 className="motogp-font font-black text-lg sm:text-2xl text-gray-900 dark:text-white uppercase tracking-tight">
-            SKENARIO JUARA DUNIA MOTOGP
-          </h1>
+      {/* Kotak Skenario Juara Dunia MotoGP - Modern Racing Style */}
+      <div className="bg-white dark:bg-slate-900 border-2 border-red-500/30 dark:border-red-600/40 rounded-xl p-4 sm:p-6 mb-3 shadow-md relative overflow-hidden transition-colors racing-carbon">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 dark:bg-red-600/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-red-600 via-amber-500 to-red-600" />
+        
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5 pt-1">
+          <div className="flex items-center gap-2.5">
+            <span className="bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded italic">
+              MOTOGP 2026
+            </span>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-[#e20613] dark:text-red-500 font-bold text-xs sm:text-sm italic">
+        <h1 className="motogp-font font-black italic text-xl sm:text-3xl text-gray-900 dark:text-white uppercase tracking-tight mb-2">
+          SKENARIO JUARA DUNIA MOTOGP
+        </h1>
+
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-red-600 dark:text-red-500 font-bold text-xs sm:text-sm italic">
             by iWant MotoLab
           </span>
-          <span className="text-gray-300 dark:text-slate-700">•</span>
-          <span className="text-gray-500 dark:text-gray-400 text-xs font-medium">
-            Simulasi Penentu Gelar Seri Qatar
-          </span>
         </div>
 
-        <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed">
-          Gunakan kalkulator sederhana ini untuk melihat apakah skenario hasil Marc memenuhi batas poin terhadap kedua rival. Dengan asumsi GP Qatar berjalan normal.
+        <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm leading-relaxed border-t border-gray-100 dark:border-slate-800 pt-3">
+          Gunakan kalkulator telemetri ini untuk menguji apakah skenario perolehan poin Marc Márquez memenuhi syarat mutlak mengunci gelar Juara Dunia MotoGP 2026.
         </p>
       </div>
 

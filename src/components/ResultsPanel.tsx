@@ -29,34 +29,57 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
 
   useEffect(() => {
     if (isChampion && !prevIsChampionRef.current) {
-      // Trigger festive confetti celebration
-      const duration = 3.5 * 1000;
-      const animationEnd = Date.now() + duration;
-      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+      try {
+        const duration = 3.5 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
 
-      const randomInRange = (min: number, max: number) => {
-        return Math.random() * (max - min) + min;
-      };
+        const randomInRange = (min: number, max: number) => {
+          return Math.random() * (max - min) + min;
+        };
 
-      const interval = window.setInterval(() => {
-        const timeLeft = animationEnd - Date.now();
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
-        }
-        const particleCount = 50 * (timeLeft / duration);
-        confetti({
-          ...defaults,
-          particleCount,
-          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-          colors: ['#e20613', '#ffcc00', '#ffffff', '#22c55e'],
-        });
-        confetti({
-          ...defaults,
-          particleCount,
-          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-          colors: ['#e20613', '#ffcc00', '#ffffff', '#22c55e'],
-        });
-      }, 250);
+        const canvas = document.createElement('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '9999';
+        document.body.appendChild(canvas);
+
+        const customConfetti = (typeof (confetti as any).create === 'function')
+          ? (confetti as any).create(canvas, { resize: true, useWorker: false })
+          : confetti;
+
+        const interval = window.setInterval(() => {
+          try {
+            const timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) {
+              clearInterval(interval);
+              canvas.remove();
+              return;
+            }
+            const particleCount = 50 * (timeLeft / duration);
+            customConfetti({
+              ...defaults,
+              particleCount,
+              origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+              colors: ['#e20613', '#ffcc00', '#ffffff', '#22c55e'],
+            });
+            customConfetti({
+              ...defaults,
+              particleCount,
+              origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+              colors: ['#e20613', '#ffcc00', '#ffffff', '#22c55e'],
+            });
+          } catch (err) {
+            // Suppress confetti interval errors
+          }
+        }, 250);
+      } catch (err) {
+        // Suppress confetti init errors
+      }
     }
     prevIsChampionRef.current = isChampion;
   }, [isChampion]);
@@ -175,6 +198,24 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
           </p>
         )}
       </div>
+
+      {/* Prominent Status Banner Right Below Results */}
+      {result.hasSelection && (
+        <div className={`mb-4 p-4 sm:p-5 rounded-xl border text-center shadow-md transition-colors ${
+          isChampion
+            ? 'bg-emerald-600 dark:bg-emerald-950 text-white border-emerald-500 racing-glow-gold'
+            : 'bg-red-600 dark:bg-red-950 text-white border-red-500 racing-glow-red'
+        }`}>
+          <h3 className="motogp-font font-black italic text-xl sm:text-3xl uppercase tracking-tight text-white drop-shadow-md">
+            {isChampion ? '🏆 GELAR JUARA DUNIA TERKUNCI!' : '⚠️ GELAR BELUM TERKUNCI'}
+          </h3>
+          <p className="text-xs sm:text-sm text-gray-100 mt-1 max-w-xl mx-auto font-medium">
+            {isChampion
+              ? 'Marc Márquez secara matematis telah mengunci gelar Juara Dunia MotoGP 2026 di GP Qatar!'
+              : 'Perebutan gelar juara dunia berlanjut ke 2 seri sisa: GP Portugal (Portimão) & GP Valencia (Ricardo Tormo).'}
+          </p>
+        </div>
+      )}
 
       {/* Status Container with Dynamic Images or Empty State */}
       <div

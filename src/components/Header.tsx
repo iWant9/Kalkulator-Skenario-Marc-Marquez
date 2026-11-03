@@ -9,8 +9,9 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ darkMode, onToggleDarkMode, onOpenRules }) => {
   return (
-    <header className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 sticky top-0 z-20 shadow-xs transition-colors">
-      <div className="max-w-3xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between">
+    <header className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-200 dark:border-slate-800 sticky top-0 z-20 shadow-sm transition-colors">
+      <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-red-600 via-amber-500 to-red-600" />
+      <div className="max-w-3xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img
             src="/assets/aistudio/Gemini_Generated_Image_9or7t09or7t09or7_6f32109d.jpg"

@@ -1,8 +1,8 @@
-import React from 'react';
-import { AppState, CalculationMode, RiderConfig, RiderId, RiderState } from '../types/motogp';
+import React, { useState } from 'react';
+import { AppState, CalculationMode, RiderConfig, RiderState } from '../types/motogp';
 import { MAIN_OPTIONS, SPRINT_OPTIONS, calculateRiderSessionPoints, isPositionTaken } from '../utils/calculator';
 import { RiderAvatar } from './RiderAvatar';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 
 interface RiderCardProps {
   config: RiderConfig;
@@ -12,7 +12,6 @@ interface RiderCardProps {
   onChangeTotalPoints: (pts: number) => void;
   onChangeSprintPoints: (pts: number) => void;
   onChangeMainPoints: (pts: number) => void;
-  onToggleMinimize: () => void;
 }
 
 export const RiderCard: React.FC<RiderCardProps> = ({
@@ -23,24 +22,29 @@ export const RiderCard: React.FC<RiderCardProps> = ({
   onChangeTotalPoints,
   onChangeSprintPoints,
   onChangeMainPoints,
-  onToggleMinimize,
 }) => {
+  const [showTotalPicker, setShowTotalPicker] = useState(false);
+  const [showSprintPicker, setShowSprintPicker] = useState(false);
+  const [showMainPicker, setShowMainPicker] = useState(false);
+
   const sessionPoints = calculateRiderSessionPoints(state);
   const isMarc = config.id === 'marc';
-
-  // Find labels for minimized summary
-  const sprintLabel = SPRINT_OPTIONS.find((opt) => opt.points === state.sprintPoints)?.position || 'P?';
-  const mainLabel = MAIN_OPTIONS.find((opt) => opt.points === state.mainPoints)?.position || 'P?';
 
   const cardContainerClass = isMarc
     ? 'bg-red-100 dark:bg-red-950/30 border-red-300 dark:border-red-900/60'
     : 'bg-purple-100 dark:bg-slate-900 border-purple-300 dark:border-slate-800';
 
   const headerBorderClass = isMarc ? 'border-red-200 dark:border-red-900/50' : 'border-purple-200 dark:border-slate-800';
-  const accentTextClass = isMarc ? 'text-red-600 dark:text-red-400' : 'text-purple-600 dark:text-purple-400';
   const modeActiveBtnClass = isMarc
     ? 'peer-checked:bg-red-600 peer-checked:text-white'
     : 'peer-checked:bg-purple-600 peer-checked:text-white';
+
+  const selectedSprintOpt = SPRINT_OPTIONS.find((opt) => opt.points === state.sprintPoints);
+  const selectedMainOpt = MAIN_OPTIONS.find((opt) => opt.points === state.mainPoints);
+
+  const totalBtnBgClass = isMarc
+    ? 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white'
+    : 'bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white';
 
   return (
     <div
@@ -121,242 +125,235 @@ export const RiderCard: React.FC<RiderCardProps> = ({
                 </div>
               </label>
             </div>
-
-            {/* Minimize/Maximize toggle */}
-            <button
-              type="button"
-              data-target={config.id}
-              onClick={onToggleMinimize}
-              aria-expanded={!state.isMinimized}
-              aria-label={`Toggle minimize ${config.name}`}
-              className="toggle-minimize bg-white dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 text-xs w-7 h-7 flex items-center justify-center rounded border border-gray-300 dark:border-slate-700 transition-colors shadow-2xs cursor-pointer"
-              title={state.isMinimized ? 'Perluas tampilan' : 'Kecilkan tampilan'}
-            >
-              {state.isMinimized ? (
-                <ChevronDown className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-              ) : (
-                <ChevronUp className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-              )}
-            </button>
           </div>
         </div>
       </div>
 
-      {/* Minimized Summary Box */}
-      {state.isMinimized ? (
-        <div
-          id={`${config.id}_minimized_summary`}
-          className={`text-xs text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 p-2.5 rounded border flex items-center justify-between ${
-            isMarc ? 'border-red-200 dark:border-red-900/50' : 'border-purple-200 dark:border-slate-700'
-          }`}
-        >
-          <span className="italic text-gray-600 dark:text-gray-400">
-            {state.mode === 'total' ? (
-              state.totalPoints !== null ? (
-                <>
-                  Pilihan: Total Poin (
-                  <span className={`font-bold ${accentTextClass}`}>{state.totalPoints}</span> pts)
-                </>
-              ) : (
-                <span className="text-gray-400 dark:text-gray-500">Belum ada poin yang dipilih</span>
-              )
-            ) : state.sprintPoints !== null || state.mainPoints !== null ? (
-              <>
-                Sprint: <span className={`font-bold ${accentTextClass}`}>{sprintLabel}</span> (
-                {state.sprintPoints ?? '-'}p) | Utama:{' '}
-                <span className={`font-bold ${accentTextClass}`}>{mainLabel}</span> (
-                {state.mainPoints ?? '-'}p)
-              </>
-            ) : (
-              <span className="text-gray-400 dark:text-gray-500">Belum ada posisi yang dipilih</span>
-            )}
-          </span>
-          <span className={`font-bold ${accentTextClass}`}>
-            Total: {sessionPoints !== null ? `${sessionPoints} poin` : '-'}
-          </span>
+      {/* Mode: Total Points Button Trigger */}
+      {state.mode === 'total' && (
+        <div id={`${config.id}_mode_total`} className="pt-1">
+          <div className="bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700 p-3 rounded-lg flex items-center justify-between gap-3">
+            <div>
+              <span className="text-xs text-gray-500 dark:text-gray-400 block font-medium">Pilihan Total Poin:</span>
+              <span className="text-sm font-bold text-gray-900 dark:text-white">
+                {state.totalPoints !== null ? `${state.totalPoints} Poin` : 'Belum dipilih'}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowTotalPicker(true)}
+              className={`font-bold text-xs py-2 px-4 rounded-md shadow-2xs transition-colors flex items-center gap-1.5 cursor-pointer ${totalBtnBgClass}`}
+            >
+              <span>{state.totalPoints !== null ? 'Ubah Total Poin' : 'Pilih Total Poin'}</span>
+              <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
-      ) : (
-        <>
-          {/* Mode: Total Points */}
-          {state.mode === 'total' && (
-            <div id={`${config.id}_mode_total`} className="space-y-2 flex flex-col pt-1">
+      )}
+
+      {/* Mode: Position Selection Buttons (Sprint & Main Race) */}
+      {state.mode === 'posisi' && (
+        <div
+          id={`${config.id}_mode_posisi`}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+        >
+          {/* Sprint Race Button Trigger */}
+          <div className="bg-red-50/80 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 p-3 rounded-lg flex flex-col justify-between">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] sm:text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-red-600" /> Sprint Race
+              </span>
+              {state.sprintPoints !== null && (
+                <span className="text-[10px] font-bold text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900/50 px-1.5 py-0.5 rounded">
+                  {selectedSprintOpt ? `${selectedSprintOpt.label}` : `${state.sprintPoints} pts`}
+                </span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowSprintPicker(true)}
+              className="w-full bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold text-xs py-2 px-3 rounded-md shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span>{state.sprintPoints !== null ? 'Ubah Posisi Sprint' : 'Pilih Posisi Sprint'}</span>
+              <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Main Race Button Trigger */}
+          <div className="bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 p-3 rounded-lg flex flex-col justify-between">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] sm:text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-blue-500" /> Race Utama
+              </span>
+              {state.mainPoints !== null && (
+                <span className="text-[10px] font-bold text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/50 px-1.5 py-0.5 rounded">
+                  {selectedMainOpt ? `${selectedMainOpt.label}` : `${state.mainPoints} pts`}
+                </span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowMainPicker(true)}
+              className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-xs py-2 px-3 rounded-md shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span>{state.mainPoints !== null ? 'Ubah Posisi Utama' : 'Pilih Posisi Utama'}</span>
+              <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Total Points Picker Modal */}
+      {showTotalPicker && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl max-w-sm w-full p-4 sm:p-5 shadow-2xl relative">
+            <button
+              type="button"
+              onClick={() => setShowTotalPicker(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300 bg-gray-100 dark:bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+              Pilih Total Poin ({config.name})
+            </h4>
+
+            <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-1">
               {config.totalPresets.map((pts) => {
                 const isChecked = state.totalPoints === pts;
                 return (
-                  <label
+                  <button
                     key={pts}
-                    className="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit select-none"
+                    type="button"
+                    onClick={() => {
+                      onChangeTotalPoints(pts);
+                      setShowTotalPicker(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-md text-xs flex items-center justify-between transition-colors ${
+                      isChecked
+                        ? isMarc
+                          ? 'bg-red-600 text-white font-bold'
+                          : 'bg-purple-600 text-white font-bold'
+                        : 'hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-800 dark:text-gray-200'
+                    }`}
                   >
-                    <input
-                      type="radio"
-                      name={`${config.id}_points`}
-                      value={pts}
-                      checked={isChecked}
-                      onChange={() => onChangeTotalPoints(pts)}
-                      className="peer hidden"
-                    />
-                    <div
-                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                        isChecked
-                          ? isMarc
-                            ? 'border-red-600 bg-white dark:bg-slate-900'
-                            : 'border-purple-600 bg-white dark:bg-slate-900'
-                          : 'border-gray-400 dark:border-slate-600 bg-white dark:bg-slate-900 group-hover:border-gray-600 dark:group-hover:border-slate-400'
-                      }`}
-                    >
-                      {isChecked && (
-                        <div
-                          className={`w-2 h-2 rounded-full ${
-                            isMarc ? 'bg-red-600' : 'bg-purple-600'
-                          }`}
-                        />
-                      )}
-                    </div>
-                    <span
-                      className={`text-xs sm:text-sm font-medium ${
-                        isChecked
-                          ? 'text-gray-950 dark:text-white font-bold'
-                          : 'text-gray-800 dark:text-gray-300 group-hover:text-gray-950 dark:group-hover:text-white'
-                      }`}
-                    >
-                      {pts} poin
-                    </span>
-                  </label>
+                    <span>{pts} Poin</span>
+                    {isChecked && <span className="text-[10px] uppercase font-bold tracking-wider">Dipilih</span>}
+                  </button>
                 );
               })}
             </div>
-          )}
+          </div>
+        </div>
+      )}
 
-          {/* Mode: Position Selection (Sprint & Main Race) */}
-          {state.mode === 'posisi' && (
-            <div
-              id={`${config.id}_mode_posisi`}
-              className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-white dark:bg-slate-800/90 p-2.5 sm:p-4 rounded-lg border shadow-inner ${
-                isMarc ? 'border-red-200 dark:border-red-900/50' : 'border-purple-200 dark:border-slate-700'
-              }`}
+      {/* Sprint Position Picker Modal */}
+      {showSprintPicker && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl max-w-sm w-full p-4 sm:p-5 shadow-2xl relative">
+            <button
+              type="button"
+              onClick={() => setShowSprintPicker(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300 bg-gray-100 dark:bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center transition-colors cursor-pointer"
             >
-              {/* Sprint Race Column */}
-              <div className="bg-red-50/60 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 p-2.5 sm:p-3 rounded-md">
-                <h4 className="text-[11px] sm:text-xs font-bold text-red-600 dark:text-red-400 mb-2.5 border-b border-red-200 dark:border-red-900/50 pb-1 uppercase tracking-wider flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-red-600" /> Sprint Race
-                </h4>
-                <div className="space-y-1.5 sm:space-y-2 flex flex-col">
-                  {SPRINT_OPTIONS.map((opt) => {
-                    const check = isPositionTaken(appState, 'sprint', opt.points, config.id);
-                    const isTaken = check.taken;
-                    const isChecked = state.sprintPoints === opt.points;
+              <X className="w-4 h-4" />
+            </button>
 
-                    return (
-                      <label
-                        key={opt.position}
-                        className={`custom-radio flex items-center gap-2.5 select-none ${
-                          isTaken
-                            ? 'cursor-not-allowed opacity-40'
-                            : 'cursor-pointer group'
-                        }`}
-                        title={isTaken ? `Sudah diambil oleh ${check.takenBy?.name}` : undefined}
-                      >
-                        <input
-                          type="radio"
-                          name={`${config.id}_sprint`}
-                          value={opt.points}
-                          checked={isChecked}
-                          disabled={isTaken}
-                          onChange={() => onChangeSprintPoints(opt.points)}
-                          className="peer hidden"
-                        />
-                        <div
-                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0 ${
-                            isChecked
-                              ? 'border-red-600 bg-white dark:bg-slate-900'
-                              : 'border-gray-400 dark:border-slate-600 bg-white dark:bg-slate-900 group-hover:border-gray-600 dark:group-hover:border-slate-400'
-                          }`}
-                        >
-                          {isChecked && <div className="w-2 h-2 rounded-full bg-red-600" />}
-                        </div>
-                        <span
-                          className={`text-xs sm:text-sm ${
-                            isChecked
-                              ? 'text-gray-950 dark:text-white font-bold'
-                              : 'text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white'
-                          }`}
-                        >
-                          {opt.label}
-                        </span>
+            <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-600" /> Pilih Posisi Sprint ({config.name})
+            </h4>
 
-                        {isTaken && (
-                          <span className="taken-note text-[9px] sm:text-[10px] text-red-600 dark:text-red-400 italic ml-auto font-bold bg-red-100/80 dark:bg-red-950 px-1.5 py-0.5 rounded">
-                            P {check.takenBy?.name}
-                          </span>
-                        )}
-                      </label>
-                    );
-                  })}
-                </div>
-              </div>
+            <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-1">
+              {SPRINT_OPTIONS.map((opt) => {
+                const check = isPositionTaken(appState, 'sprint', opt.points, config.id);
+                const isTaken = check.taken;
+                const isChecked = state.sprintPoints === opt.points;
 
-              {/* Main Race Column */}
-              <div className="bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 p-2.5 sm:p-3 rounded-md">
-                <h4 className="text-[11px] sm:text-xs font-bold text-blue-600 dark:text-blue-400 mb-2.5 border-b border-blue-200 dark:border-blue-900/50 pb-1 uppercase tracking-wider flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-500" /> Race Utama
-                </h4>
-                <div className="space-y-1.5 sm:space-y-2 flex flex-col">
-                  {MAIN_OPTIONS.map((opt) => {
-                    const check = isPositionTaken(appState, 'main', opt.points, config.id);
-                    const isTaken = check.taken;
-                    const isChecked = state.mainPoints === opt.points;
-
-                    return (
-                      <label
-                        key={opt.position}
-                        className={`custom-radio flex items-center gap-2.5 select-none ${
-                          isTaken
-                            ? 'cursor-not-allowed opacity-40'
-                            : 'cursor-pointer group'
-                        }`}
-                        title={isTaken ? `Sudah diambil oleh ${check.takenBy?.name}` : undefined}
-                      >
-                        <input
-                          type="radio"
-                          name={`${config.id}_main`}
-                          value={opt.points}
-                          checked={isChecked}
-                          disabled={isTaken}
-                          onChange={() => onChangeMainPoints(opt.points)}
-                          className="peer hidden"
-                        />
-                        <div
-                          className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0 ${
-                            isChecked
-                              ? 'border-blue-600 bg-white dark:bg-slate-900'
-                              : 'border-gray-400 dark:border-slate-600 bg-white dark:bg-slate-900 group-hover:border-gray-600 dark:group-hover:border-slate-400'
-                          }`}
-                        >
-                          {isChecked && <div className="w-2 h-2 rounded-full bg-blue-600" />}
-                        </div>
-                        <span
-                          className={`text-xs sm:text-sm ${
-                            isChecked
-                              ? 'text-gray-950 dark:text-white font-bold'
-                              : 'text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white'
-                          }`}
-                        >
-                          {opt.label}
-                        </span>
-
-                        {isTaken && (
-                          <span className="taken-note text-[9px] sm:text-[10px] text-blue-700 dark:text-blue-400 italic ml-auto font-bold bg-blue-100/80 dark:bg-blue-950 px-1.5 py-0.5 rounded">
-                            P {check.takenBy?.name}
-                          </span>
-                        )}
-                      </label>
-                    );
-                  })}
-                </div>
-              </div>
+                return (
+                  <button
+                    key={opt.position}
+                    type="button"
+                    disabled={isTaken}
+                    onClick={() => {
+                      onChangeSprintPoints(opt.points);
+                      setShowSprintPicker(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-md text-xs flex items-center justify-between transition-colors ${
+                      isTaken
+                        ? 'opacity-40 cursor-not-allowed bg-gray-50 dark:bg-slate-800/50'
+                        : isChecked
+                        ? 'bg-red-600 text-white font-bold'
+                        : 'hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-800 dark:text-gray-200'
+                    }`}
+                  >
+                    <span>{opt.label}</span>
+                    {isTaken && (
+                      <span className="text-[10px] italic text-red-500 font-medium">
+                        Diambil {check.takenBy?.name}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
-          )}
-        </>
+          </div>
+        </div>
+      )}
+
+      {/* Main Race Position Picker Modal */}
+      {showMainPicker && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/60 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl max-w-sm w-full p-4 sm:p-5 shadow-2xl relative">
+            <button
+              type="button"
+              onClick={() => setShowMainPicker(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300 bg-gray-100 dark:bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <h4 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> Pilih Posisi Race Utama ({config.name})
+            </h4>
+
+            <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-1">
+              {MAIN_OPTIONS.map((opt) => {
+                const check = isPositionTaken(appState, 'main', opt.points, config.id);
+                const isTaken = check.taken;
+                const isChecked = state.mainPoints === opt.points;
+
+                return (
+                  <button
+                    key={opt.position}
+                    type="button"
+                    disabled={isTaken}
+                    onClick={() => {
+                      onChangeMainPoints(opt.points);
+                      setShowMainPicker(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-md text-xs flex items-center justify-between transition-colors ${
+                      isTaken
+                        ? 'opacity-40 cursor-not-allowed bg-gray-50 dark:bg-slate-800/50'
+                        : isChecked
+                        ? 'bg-blue-600 text-white font-bold'
+                        : 'hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-800 dark:text-gray-200'
+                    }`}
+                  >
+                    <span>{opt.label}</span>
+                    {isTaken && (
+                      <span className="text-[10px] italic text-blue-500 font-medium">
+                        Diambil {check.takenBy?.name}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

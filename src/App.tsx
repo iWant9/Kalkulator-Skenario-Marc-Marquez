@@ -197,16 +197,6 @@ export default function App() {
     });
   };
 
-  const handleToggleMinimize = (riderId: RiderId) => {
-    setAppState((prev) => ({
-      ...prev,
-      [riderId]: {
-        ...prev[riderId],
-        isMinimized: !prev[riderId].isMinimized,
-      },
-    }));
-  };
-
   const handleReset = () => {
     setAppState(EMPTY_APP_STATE);
     try {
@@ -238,9 +228,6 @@ export default function App() {
             <h2 className="motogp-font font-bold text-base sm:text-lg text-gray-900 dark:text-white uppercase tracking-tight">
               Kalkulator poin Qatar
             </h2>
-            <span className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium hidden sm:inline">
-              Pilih posisi atau total poin per pembalap
-            </span>
           </div>
 
           <form id="calculator-form" onSubmit={(e) => e.preventDefault()}>
@@ -253,7 +240,6 @@ export default function App() {
               onChangeTotalPoints={(p) => handleTotalPointsChange('marc', p)}
               onChangeSprintPoints={(p) => handleSprintPointsChange('marc', p)}
               onChangeMainPoints={(p) => handleMainPointsChange('marc', p)}
-              onToggleMinimize={() => handleToggleMinimize('marc')}
             />
 
             {/* Section 2: Jorge Martin */}
@@ -265,7 +251,6 @@ export default function App() {
               onChangeTotalPoints={(p) => handleTotalPointsChange('martin', p)}
               onChangeSprintPoints={(p) => handleSprintPointsChange('martin', p)}
               onChangeMainPoints={(p) => handleMainPointsChange('martin', p)}
-              onToggleMinimize={() => handleToggleMinimize('martin')}
             />
 
             {/* Section 3: Marco Bezzecchi */}
@@ -277,7 +262,6 @@ export default function App() {
               onChangeTotalPoints={(p) => handleTotalPointsChange('bez', p)}
               onChangeSprintPoints={(p) => handleSprintPointsChange('bez', p)}
               onChangeMainPoints={(p) => handleMainPointsChange('bez', p)}
-              onToggleMinimize={() => handleToggleMinimize('bez')}
             />
 
             {/* Results Section */}
