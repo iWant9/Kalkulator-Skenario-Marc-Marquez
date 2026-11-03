@@ -136,28 +136,68 @@ export const INITIAL_APP_STATE: AppState = {
   },
 };
 
-export function calculateRiderSessionPoints(riderState: RiderState): number {
+export const EMPTY_APP_STATE: AppState = {
+  marc: {
+    mode: 'posisi',
+    totalPoints: null,
+    sprintPoints: null,
+    mainPoints: null,
+    isMinimized: false,
+  },
+  martin: {
+    mode: 'total',
+    totalPoints: null,
+    sprintPoints: null,
+    mainPoints: null,
+    isMinimized: false,
+  },
+  bez: {
+    mode: 'total',
+    totalPoints: null,
+    sprintPoints: null,
+    mainPoints: null,
+    isMinimized: false,
+  },
+};
+
+export function isRiderSelected(riderState: RiderState): boolean {
   if (riderState.mode === 'posisi') {
-    return Number(riderState.sprintPoints || 0) + Number(riderState.mainPoints || 0);
+    return riderState.sprintPoints !== null || riderState.mainPoints !== null;
   }
-  return Number(riderState.totalPoints || 0);
+  return riderState.totalPoints !== null;
+}
+
+export function hasUserSelectedAny(state: AppState): boolean {
+  return isRiderSelected(state.marc) || isRiderSelected(state.martin) || isRiderSelected(state.bez);
+}
+
+export function calculateRiderSessionPoints(riderState: RiderState): number | null {
+  if (riderState.mode === 'posisi') {
+    if (riderState.sprintPoints === null && riderState.mainPoints === null) {
+      return null;
+    }
+    return (riderState.sprintPoints ?? 0) + (riderState.mainPoints ?? 0);
+  }
+  return riderState.totalPoints;
 }
 
 export function calculateScenario(state: AppState): CalculationResult {
+  const hasSelection = hasUserSelectedAny(state);
   const marcSessionPoints = calculateRiderSessionPoints(state.marc);
   const martinSessionPoints = calculateRiderSessionPoints(state.martin);
   const bezSessionPoints = calculateRiderSessionPoints(state.bez);
 
-  const marcTotal = BASE_STANDINGS.marc + marcSessionPoints;
-  const martinTotal = BASE_STANDINGS.martin + martinSessionPoints;
-  const bezTotal = BASE_STANDINGS.bez + bezSessionPoints;
+  const marcTotal = BASE_STANDINGS.marc + (marcSessionPoints ?? 0);
+  const martinTotal = BASE_STANDINGS.martin + (martinSessionPoints ?? 0);
+  const bezTotal = BASE_STANDINGS.bez + (bezSessionPoints ?? 0);
 
   const advMartin = marcTotal - martinTotal;
   const advBez = marcTotal - bezTotal;
 
-  const isMartinClenched = advMartin >= CLINCH_MARTIN;
-  const isBezClenched = advBez >= CLINCH_BEZ;
-  const isChampion = isMartinClenched && isBezClenched;
+  // Title can only be clinched if actual selections were made
+  const isMartinClenched = hasSelection && advMartin >= CLINCH_MARTIN;
+  const isBezClenched = hasSelection && advBez >= CLINCH_BEZ;
+  const isChampion = hasSelection && isMartinClenched && isBezClenched;
 
   return {
     marcSessionPoints,
@@ -171,17 +211,18 @@ export function calculateScenario(state: AppState): CalculationResult {
     isMartinClenched,
     isBezClenched,
     isChampion,
+    hasSelection,
   };
 }
 
 export function isPositionTaken(
   state: AppState,
   session: 'sprint' | 'main',
-  points: number,
+  points: number | null,
   currentRiderId: RiderId
 ): { taken: boolean; takenBy?: RiderConfig } {
-  // DNF or 0 points can be shared by multiple riders
-  if (points === 0) {
+  // Unset, DNF or 0 points can be shared
+  if (points === null || points === 0) {
     return { taken: false };
   }
 

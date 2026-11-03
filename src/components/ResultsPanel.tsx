@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CalculationResult } from '../types/motogp';
 import { CLINCH_BEZ, CLINCH_MARTIN } from '../utils/calculator';
-import { Award, CheckCircle2, Trophy, XCircle } from 'lucide-react';
+import { Award, CheckCircle2, Info, Trophy, XCircle } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 const CHAMPION_IMG = '/assets/aistudio/MM93_6ad47e61.webp';
 const RACING_IMG = '/assets/aistudio/1788105990_112d33e7defd60939a6f_f9233dbc.webp';
@@ -24,72 +25,108 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
     isChampion,
   } = result;
 
+  const prevIsChampionRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (isChampion && !prevIsChampionRef.current) {
+      // Trigger festive confetti celebration
+      const duration = 3.5 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+      const randomInRange = (min: number, max: number) => {
+        return Math.random() * (max - min) + min;
+      };
+
+      const interval = window.setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+          colors: ['#e20613', '#ffcc00', '#ffffff', '#22c55e'],
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          colors: ['#e20613', '#ffcc00', '#ffffff', '#22c55e'],
+        });
+      }, 250);
+    }
+    prevIsChampionRef.current = isChampion;
+  }, [isChampion]);
+
   // Percentage progress toward target (capped between 0 and 100%)
   const martinProgress = Math.min(Math.max(Math.round((advMartin / CLINCH_MARTIN) * 100), 0), 100);
   const bezProgress = Math.min(Math.max(Math.round((advBez / CLINCH_BEZ) * 100), 0), 100);
 
   return (
-    <div className="pt-4 sm:pt-6 border-t border-gray-200">
+    <div className="pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 transition-colors">
       {/* 3 Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-5 sm:mb-6">
-        <div className="bg-red-50 p-3 sm:p-4 rounded-lg border border-red-200 text-center shadow-2xs">
-          <span className="text-[11px] sm:text-xs text-gray-600 block mb-1 font-medium">
+        <div className="bg-red-50 dark:bg-red-950/40 p-3 sm:p-4 rounded-lg border border-red-200 dark:border-red-900/50 text-center shadow-2xs">
+          <span className="text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 block mb-1 font-medium">
             Total Poin Akhir Marc
           </span>
-          <span id="total-marc" className="text-xl sm:text-2xl font-black text-red-600 tracking-tight">
+          <span id="total-marc" className="text-xl sm:text-2xl font-black text-red-600 dark:text-red-500 tracking-tight">
             {marcTotal} poin
           </span>
-          <span className="text-[10px] text-gray-500 block mt-0.5">
-            (399 + {result.marcSessionPoints})
+          <span className="text-[10px] text-gray-500 dark:text-gray-400 block mt-0.5">
+            (399 + {result.marcSessionPoints !== null ? result.marcSessionPoints : '-'})
           </span>
         </div>
 
-        <div className="bg-purple-50 p-3 sm:p-4 rounded-lg border border-purple-200 text-center shadow-2xs">
-          <span className="text-[11px] sm:text-xs text-gray-600 block mb-1 font-medium">
+        <div className="bg-purple-50 dark:bg-slate-800/80 p-3 sm:p-4 rounded-lg border border-purple-200 dark:border-slate-700 text-center shadow-2xs">
+          <span className="text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 block mb-1 font-medium">
             Total Poin Akhir Martín
           </span>
-          <span id="total-martin" className="text-xl sm:text-2xl font-black text-purple-700 tracking-tight">
+          <span id="total-martin" className="text-xl sm:text-2xl font-black text-purple-700 dark:text-purple-400 tracking-tight">
             {martinTotal} poin
           </span>
-          <span className="text-[10px] text-gray-500 block mt-0.5">
-            (355 + {result.martinSessionPoints})
+          <span className="text-[10px] text-gray-500 dark:text-gray-400 block mt-0.5">
+            (355 + {result.martinSessionPoints !== null ? result.martinSessionPoints : '-'})
           </span>
         </div>
 
-        <div className="bg-purple-50 p-3 sm:p-4 rounded-lg border border-purple-200 text-center shadow-2xs">
-          <span className="text-[11px] sm:text-xs text-gray-600 block mb-1 font-medium">
+        <div className="bg-purple-50 dark:bg-slate-800/80 p-3 sm:p-4 rounded-lg border border-purple-200 dark:border-slate-700 text-center shadow-2xs">
+          <span className="text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 block mb-1 font-medium">
             Total Poin Akhir Bezzecchi
           </span>
-          <span id="total-bez" className="text-xl sm:text-2xl font-black text-purple-700 tracking-tight">
+          <span id="total-bez" className="text-xl sm:text-2xl font-black text-purple-700 dark:text-purple-400 tracking-tight">
             {bezTotal} poin
           </span>
-          <span className="text-[10px] text-gray-500 block mt-0.5">
-            (332 + {result.bezSessionPoints})
+          <span className="text-[10px] text-gray-500 dark:text-gray-400 block mt-0.5">
+            (332 + {result.bezSessionPoints !== null ? result.bezSessionPoints : '-'})
           </span>
         </div>
       </div>
 
       {/* Advantage vs Martin */}
-      <div className="bg-white border border-gray-200 rounded-lg p-3 sm:p-3.5 mb-2.5 shadow-2xs">
+      <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-3 sm:p-3.5 mb-2.5 shadow-2xs">
         <div className="flex justify-between items-center mb-1.5">
-          <span className="text-xs sm:text-sm text-gray-700 font-medium flex items-center gap-1.5">
+          <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 font-medium flex items-center gap-1.5">
             {isMartinClenched ? (
-              <CheckCircle2 className="w-4 h-4 text-green-600 inline flex-shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-500 inline flex-shrink-0" />
             ) : (
               <XCircle className="w-4 h-4 text-red-500 inline flex-shrink-0" />
             )}
-            Keunggulan atas Martín <span className="text-gray-500 font-normal">(Target: min. {CLINCH_MARTIN} poin)</span>
+            Keunggulan atas Martín <span className="text-gray-500 dark:text-gray-400 font-normal">(Target: min. {CLINCH_MARTIN} poin)</span>
           </span>
           <span
             id="adv-martin"
             className={`text-xs sm:text-sm font-bold ${
-              isMartinClenched ? 'text-green-600' : 'text-red-600'
+              isMartinClenched ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
             }`}
           >
             {advMartin} poin
           </span>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+        <div className="w-full bg-gray-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
           <div
             className={`h-full transition-all duration-300 rounded-full ${
               isMartinClenched ? 'bg-green-600' : 'bg-red-500'
@@ -98,33 +135,33 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
           />
         </div>
         {!isMartinClenched && (
-          <p className="text-[10px] text-gray-500 mt-1">
+          <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">
             Kurang {CLINCH_MARTIN - advMartin} poin untuk mengunci dari Martín
           </p>
         )}
       </div>
 
       {/* Advantage vs Bezzecchi */}
-      <div className="bg-white border border-gray-200 rounded-lg p-3 sm:p-3.5 mb-4 sm:mb-6 shadow-2xs">
+      <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-3 sm:p-3.5 mb-4 sm:mb-6 shadow-2xs">
         <div className="flex justify-between items-center mb-1.5">
-          <span className="text-xs sm:text-sm text-gray-700 font-medium flex items-center gap-1.5">
+          <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 font-medium flex items-center gap-1.5">
             {isBezClenched ? (
-              <CheckCircle2 className="w-4 h-4 text-green-600 inline flex-shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-500 inline flex-shrink-0" />
             ) : (
               <XCircle className="w-4 h-4 text-red-500 inline flex-shrink-0" />
             )}
-            Keunggulan atas Bezzecchi <span className="text-gray-500 font-normal">(Target: min. {CLINCH_BEZ} poin)</span>
+            Keunggulan atas Bezzecchi <span className="text-gray-500 dark:text-gray-400 font-normal">(Target: min. {CLINCH_BEZ} poin)</span>
           </span>
           <span
             id="adv-bez"
             className={`text-xs sm:text-sm font-bold ${
-              isBezClenched ? 'text-green-600' : 'text-red-600'
+              isBezClenched ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
             }`}
           >
             {advBez} poin
           </span>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+        <div className="w-full bg-gray-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
           <div
             className={`h-full transition-all duration-300 rounded-full ${
               isBezClenched ? 'bg-green-600' : 'bg-red-500'
@@ -133,130 +170,151 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
           />
         </div>
         {!isBezClenched && (
-          <p className="text-[10px] text-gray-500 mt-1">
+          <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">
             Kurang {CLINCH_BEZ - advBez} poin untuk mengunci dari Bezzecchi
           </p>
         )}
       </div>
 
-      {/* Status Container with Dynamic Images */}
+      {/* Status Container with Dynamic Images or Empty State */}
       <div
         id="status-container"
         className={`rounded-xl border overflow-hidden transition-all shadow-sm ${
-          isChampion
-            ? 'bg-gradient-to-b from-green-50 to-emerald-100/50 border-green-300'
-            : 'bg-gradient-to-b from-slate-50 to-red-50/50 border-red-200'
+          !result.hasSelection
+            ? 'bg-amber-50/50 dark:bg-amber-950/20 border-amber-300 dark:border-amber-900/50'
+            : isChampion
+            ? 'bg-gradient-to-b from-green-50 to-emerald-100/50 dark:from-green-950/30 dark:to-emerald-950/30 border-green-300 dark:border-green-800'
+            : 'bg-gradient-to-b from-slate-50 to-red-50/50 dark:from-slate-900 dark:to-red-950/30 border-red-200 dark:border-red-900/50'
         }`}
       >
-        {/* Dynamic Image Banner */}
-        <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-slate-950">
-          <img
-            src={isChampion ? CHAMPION_IMG : RACING_IMG}
-            alt={
-              isChampion
-                ? 'Marc Márquez Pose Juara Memeluk Piala Juara Dunia MotoGP 2026'
-                : 'Marc Márquez Melaju dengan Motor Ducati #93'
-            }
-            className="w-full h-full object-cover object-center transition-all duration-500"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none" />
-
-          {/* Badge Overlay */}
-          <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-            {isChampion ? (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-600/90 text-white font-black text-xs uppercase tracking-wider backdrop-blur-xs shadow-md">
-                <Trophy className="w-3.5 h-3.5 text-yellow-300 fill-yellow-300" />
-                World Champion 2026
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-600/90 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-xs shadow-md">
-                <Award className="w-3.5 h-3.5" />
-                Title Fight Continues
-              </span>
-            )}
-          </div>
-
-          {/* Subtext on bottom of image */}
-          <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 text-white">
+        {!result.hasSelection ? (
+          <div className="p-6 sm:p-8 text-center bg-white dark:bg-slate-900 border-b border-amber-200 dark:border-amber-900/40">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/50 border border-amber-300 dark:border-amber-700 text-amber-600 dark:text-amber-400 mb-3 shadow-2xs">
+              <Info className="w-6 h-6" />
+            </div>
             <h4
               id="status-title"
-              className={`font-black tracking-tight text-base sm:text-xl drop-shadow-md ${
-                isChampion ? 'text-yellow-300' : 'text-white'
-              }`}
+              className="font-black tracking-tight text-base sm:text-xl text-gray-900 dark:text-white"
             >
-              {isChampion ? 'Gelar Juara Dunia Terkunci!' : 'Gelar belum terkunci'}
+              belum ada memilih poin atau posisi finish
             </h4>
-            <p className="text-xs sm:text-sm text-gray-200 font-medium drop-shadow-sm mt-0.5">
-              {isChampion
-                ? 'Marc Márquez resmi mengunci gelar Juara Dunia MotoGP 2026!'
-                : 'Marc Márquez melaju menatap 2 seri penentu: GP Portugal (Portimão) & GP Valencia (Ricardo Tormo)'}
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium mt-1">
+              Silakan tentukan opsi poin atau posisi balapan untuk memulai kalkulasi
             </p>
           </div>
-        </div>
+        ) : (
+          /* Dynamic Image Banner */
+          <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-slate-950">
+            <img
+              src={isChampion ? CHAMPION_IMG : RACING_IMG}
+              alt={
+                isChampion
+                  ? 'Marc Márquez Pose Juara Memeluk Piala Juara Dunia MotoGP 2026'
+                  : 'Marc Márquez Melaju dengan Motor Ducati #93'
+              }
+              className="w-full h-full object-cover object-center transition-all duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent pointer-events-none" />
+
+            {/* Badge Overlay */}
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+              {isChampion ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-600/90 text-white font-black text-xs uppercase tracking-wider backdrop-blur-xs shadow-md">
+                  <Trophy className="w-3.5 h-3.5 text-yellow-300 fill-yellow-300" />
+                  World Champion 2026
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-600/90 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-xs shadow-md">
+                  <Award className="w-3.5 h-3.5" />
+                  Title Fight Continues
+                </span>
+              )}
+            </div>
+
+            {/* Subtext on bottom of image */}
+            <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 text-white">
+              <h4
+                id="status-title"
+                className={`font-black tracking-tight text-base sm:text-xl drop-shadow-md ${
+                  isChampion ? 'text-yellow-300' : 'text-white'
+                }`}
+              >
+                {isChampion ? 'Gelar Juara Dunia Terkunci!' : 'Gelar belum terkunci'}
+              </h4>
+              <p className="text-xs sm:text-sm text-gray-200 font-medium drop-shadow-sm mt-0.5">
+                {isChampion
+                  ? 'Marc Márquez resmi mengunci gelar Juara Dunia MotoGP 2026!'
+                  : 'Marc Márquez melaju menatap 2 seri penentu: GP Portugal (Portimão) & GP Valencia (Ricardo Tormo)'}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Text Details Description below the image */}
         <div className="p-3.5 sm:p-5">
-          <p id="status-desc" className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-            {isChampion
+          <p id="status-desc" className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+            {!result.hasSelection
+              ? 'belum ada memilih poin atau posisi finish. Silakan tentukan opsi total poin atau pilih posisi finis (Sprint Race & Race Utama) untuk Marc Márquez, Jorge Martín, dan Marco Bezzecchi pada menu kalkulator di atas guna melihat perolehan poin dan skenario juara dunia MotoGP 2026.'
+              : isChampion
               ? 'Keunggulan poin sudah mencapai target mutlak (minimal 74 dari Martin dan 75 dari Bezzecchi) di seri MotoGP Qatar! Marc Márquez secara matematis telah mengunci gelar Juara Dunia MotoGP 2026!'
               : 'Hitungan poin akhir keseluruhan, target mutlak Marc Marquez adalah mengakhiri seri MotoGP Qatar dengan keunggulan minimal 74 poin unggul dari Martin dan 75 poin unggul dari Bezzecchi. Karena target belum terpenuhi di Qatar, perebutan gelar juara dunia berlanjut dengan Marc melaju di 2 seri sisa: Sirkuit Algarve Portimão (Portugal) dan Sirkuit Ricardo Tormo (Valencia).'}
           </p>
 
-          {/* If NOT clenched: Show Circuit Maps for Portugal & Valencia */}
-          {!isChampion && (
-            <div className="mt-4 pt-3.5 border-t border-gray-200">
+          {/* If NOT clenched and HAS selection: Show Circuit Maps for Portugal & Valencia */}
+          {result.hasSelection && !isChampion && (
+            <div className="mt-4 pt-3.5 border-t border-gray-200 dark:border-slate-800">
               <div className="flex items-center justify-between mb-2.5">
-                <span className="text-xs font-bold text-gray-800 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
                   Peta 2 Sirkuit Penentu Tersisa:
                 </span>
-                <span className="text-[10px] text-gray-500">Maks. 74 Poin Tersedia</span>
+                <span className="text-[10px] text-gray-500 dark:text-gray-400">Maks. 74 Poin Tersedia</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Circuit 1: Portimao Portugal */}
-                <div className="bg-white border border-gray-200 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
-                  <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 pb-1.5">
+                <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
+                  <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 dark:border-slate-800 pb-1.5">
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm">🇵🇹</span>
-                      <span className="text-xs font-bold text-gray-900">Sirkuit Portimão</span>
+                      <span className="text-xs font-bold text-gray-900 dark:text-white">Sirkuit Portimão</span>
                     </div>
-                    <span className="text-[9px] font-semibold text-red-600 bg-red-50 px-1.5 py-0.5 rounded border border-red-200">
+                    <span className="text-[9px] font-semibold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/60 px-1.5 py-0.5 rounded border border-red-200 dark:border-red-900/50">
                       GP Portugal (Seri 21)
                     </span>
                   </div>
-                  <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 p-1">
+                  <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 dark:bg-slate-950 p-1">
                     <img
                       src={PORTUGAL_TRACK_IMG}
                       alt="Peta Sirkuit Autódromo Internacional do Algarve Portimão Portugal"
                       className="max-h-full max-w-full object-contain"
                     />
                   </div>
-                  <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500">
+                  <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400">
                     <span>15 Tikungan</span>
                     <span>Panjang: 4.592 km</span>
                   </div>
                 </div>
 
                 {/* Circuit 2: Valencia Ricardo Tormo */}
-                <div className="bg-white border border-gray-200 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
-                  <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 pb-1.5">
+                <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
+                  <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 dark:border-slate-800 pb-1.5">
                     <div className="flex items-center gap-1.5">
                       <span className="text-sm">🇪🇸</span>
-                      <span className="text-xs font-bold text-gray-900">Sirkuit Valencia</span>
+                      <span className="text-xs font-bold text-gray-900 dark:text-white">Sirkuit Valencia</span>
                     </div>
-                    <span className="text-[9px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                    <span className="text-[9px] font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-900/50">
                       GP Valencia (Seri 22)
                     </span>
                   </div>
-                  <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 p-1">
+                  <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 dark:bg-slate-950 p-1">
                     <img
                       src={VALENCIA_TRACK_IMG}
                       alt="Peta Sirkuit Ricardo Tormo Valencia"
                       className="max-h-full max-w-full object-contain"
                     />
                   </div>
-                  <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500">
+                  <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400">
                     <span>14 Tikungan</span>
                     <span>Panjang: 4.005 km</span>
                   </div>

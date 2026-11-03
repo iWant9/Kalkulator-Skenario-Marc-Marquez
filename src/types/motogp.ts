@@ -27,9 +27,9 @@ export interface RiderConfig {
 
 export interface RiderState {
   mode: CalculationMode;
-  totalPoints: number;
-  sprintPoints: number;
-  mainPoints: number;
+  totalPoints: number | null;
+  sprintPoints: number | null;
+  mainPoints: number | null;
   isMinimized: boolean;
 }
 
@@ -42,9 +42,9 @@ export interface RacePositionOption {
 }
 
 export interface CalculationResult {
-  marcSessionPoints: number;
-  martinSessionPoints: number;
-  bezSessionPoints: number;
+  marcSessionPoints: number | null;
+  martinSessionPoints: number | null;
+  bezSessionPoints: number | null;
   marcTotal: number;
   martinTotal: number;
   bezTotal: number;
@@ -53,4 +53,5 @@ export interface CalculationResult {
   isMartinClenched: boolean;
   isBezClenched: boolean;
   isChampion: boolean;
+  hasSelection: boolean;
 }

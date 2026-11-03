@@ -1,53 +1,61 @@
 import React from 'react';
-import { HelpCircle, RotateCcw, Youtube } from 'lucide-react';
+import { HelpCircle, Youtube, Sun, Moon } from 'lucide-react';
 
 interface HeaderProps {
-  onReset: () => void;
+  darkMode: boolean;
+  onToggleDarkMode: () => void;
   onOpenRules: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onReset, onOpenRules }) => {
+export const Header: React.FC<HeaderProps> = ({ darkMode, onToggleDarkMode, onOpenRules }) => {
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-xs">
-      <div className="max-w-3xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between">
+    <header className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 sticky top-0 z-20 shadow-xs transition-colors">
+      <div className="max-w-3xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="motogp-font italic font-black text-xl sm:text-2xl tracking-tighter text-gray-900 select-none">
-            MotoGP<span className="text-[#e20613]">™</span>
-          </div>
-          <span className="hidden sm:inline-block w-px h-5 bg-gray-200 mx-1" />
-          <div className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest hidden sm:block">
+          <img
+            src="/assets/aistudio/Gemini_Generated_Image_9or7t09or7t09or7_6f32109d.jpg"
+            alt="Logo iWant MotoLab"
+            className="h-7 sm:h-9 w-auto object-contain rounded-md"
+          />
+          <span className="hidden sm:inline-block w-px h-5 bg-gray-200 dark:bg-slate-700 mx-1" />
+          <div className="text-[10px] sm:text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest hidden sm:block">
             2026 Title Simulator
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Dark / Light Mode Toggle */}
           <button
             type="button"
-            onClick={onOpenRules}
-            aria-label="Aturan Poin dan Skenario"
-            className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-2.5 py-1.5 rounded-md transition-colors"
-            title="Penjelasan Perhitungan Poin"
+            onClick={onToggleDarkMode}
+            aria-label="Ganti mode terang atau gelap"
+            className="inline-flex items-center justify-center p-1.5 sm:px-2.5 sm:py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-md transition-colors cursor-pointer"
+            title={darkMode ? 'Ubah ke Mode Terang' : 'Ubah ke Mode Gelap'}
           >
-            <HelpCircle className="w-3.5 h-3.5 text-gray-500" />
-            <span className="hidden xs:inline">Aturan Poin</span>
+            {darkMode ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-slate-700" />
+            )}
+            <span className="hidden sm:inline ml-1 text-[11px]">{darkMode ? 'Terang' : 'Gelap'}</span>
           </button>
 
           <button
             type="button"
-            onClick={onReset}
-            aria-label="Reset ke Pengaturan Awal"
-            className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-2.5 py-1.5 rounded-md transition-colors"
-            title="Kembalikan ke skenario bawaan"
+            onClick={onOpenRules}
+            aria-label="Aturan Poin dan Skenario"
+            className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 px-2.5 py-1.5 rounded-md transition-colors cursor-pointer"
+            title="Penjelasan Perhitungan Poin"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-gray-500" />
-            <span className="hidden xs:inline">Reset</span>
+            <HelpCircle className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" />
+            <span className="hidden xs:inline">Aturan Poin</span>
           </button>
 
           <a
             href="https://youtube.com/@iwant_dc?si=5Y_Gnrj5q0yrKeq3"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 bg-[#ff0000] hover:bg-[#cc0000] text-white text-[11px] sm:text-xs font-bold px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 bg-[#ff0000] hover:bg-[#cc0000] text-white text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-md shadow-xs transition-colors"
             title="Subscribe channel YouTube iWant MotoLab"
           >
             <Youtube className="w-3.5 h-3.5 fill-current" />

@@ -4,6 +4,7 @@ import {
   BASE_STANDINGS,
   CLINCH_BEZ,
   CLINCH_MARTIN,
+  EMPTY_APP_STATE,
   INITIAL_APP_STATE,
   calculateRiderSessionPoints,
   calculateScenario,
@@ -161,4 +162,18 @@ test('Position collision logic avoids double booking race positions', () => {
   // DNF (0 pts) is allowed for everyone simultaneously
   const checkDNF = isPositionTaken(state, 'sprint', 0, 'bez');
   assert.equal(checkDNF.taken, false);
+});
+
+test('Empty state on reset has no selection and title is not clenched', () => {
+  const result = calculateScenario(EMPTY_APP_STATE);
+  assert.equal(result.hasSelection, false);
+  assert.equal(result.marcSessionPoints, null);
+  assert.equal(result.martinSessionPoints, null);
+  assert.equal(result.bezSessionPoints, null);
+  assert.equal(result.isChampion, false);
+  assert.equal(result.isMartinClenched, false);
+  assert.equal(result.isBezClenched, false);
+  assert.equal(result.marcTotal, 399);
+  assert.equal(result.martinTotal, 355);
+  assert.equal(result.bezTotal, 332);
 });

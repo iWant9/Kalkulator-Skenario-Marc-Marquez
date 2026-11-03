@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppState, CalculationMode, RiderId } from './types/motogp';
 import {
+  EMPTY_APP_STATE,
   INITIAL_APP_STATE,
   RIDER_CONFIGS,
   calculateScenario,
@@ -13,8 +14,10 @@ import { StandingsHeader } from './components/StandingsHeader';
 import { RiderCard } from './components/RiderCard';
 import { ResultsPanel } from './components/ResultsPanel';
 import { RulesExplanation } from './components/RulesExplanation';
+import { SupportCreatorModal } from './components/SupportCreatorModal';
 
 const STORAGE_KEY = 'motogp_simulator_state_v2';
+const DARK_MODE_KEY = 'motogp_dark_mode';
 
 export default function App() {
   const [appState, setAppState] = useState<AppState>(() => {
@@ -29,9 +32,30 @@ export default function App() {
     return INITIAL_APP_STATE;
   });
 
-  const [showRulesModal, setShowRulesModal] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem(DARK_MODE_KEY);
+      if (saved !== null) {
+        const isDark = JSON.parse(saved);
+        if (typeof window !== 'undefined') {
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }
+        return isDark;
+      }
+    } catch (e) {
+      console.error('Failed to parse dark mode', e);
+    }
+    return false;
+  });
 
-  // Sync to localStorage
+  const [showRulesModal, setShowRulesModal] = useState(false);
+  const [showSupportModal, setShowSupportModal] = useState(false);
+
+  // Sync state to localStorage
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
@@ -39,6 +63,20 @@ export default function App() {
       console.error('Failed to save state to localStorage', e);
     }
   }, [appState]);
+
+  // Sync dark mode to localStorage and document root
+  useEffect(() => {
+    try {
+      localStorage.setItem(DARK_MODE_KEY, JSON.stringify(darkMode));
+      if (darkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch (e) {
+      console.error('Failed to save dark mode', e);
+    }
+  }, [darkMode]);
 
   // Mode change handler
   const handleModeChange = (riderId: RiderId, mode: CalculationMode) => {
@@ -57,24 +95,28 @@ export default function App() {
         const curMain = nextState[riderId].mainPoints;
 
         // Check sprint conflict
-        const sprintConflict = isPositionTaken(nextState, 'sprint', curSprint, riderId);
-        if (sprintConflict.taken) {
-          const availableSprint = SPRINT_OPTIONS.find(
-            (opt) => !isPositionTaken(nextState, 'sprint', opt.points, riderId).taken
-          );
-          if (availableSprint) {
-            nextState[riderId].sprintPoints = availableSprint.points;
+        if (curSprint !== null && curSprint > 0) {
+          const sprintConflict = isPositionTaken(nextState, 'sprint', curSprint, riderId);
+          if (sprintConflict.taken) {
+            const availableSprint = SPRINT_OPTIONS.find(
+              (opt) => !isPositionTaken(nextState, 'sprint', opt.points, riderId).taken
+            );
+            if (availableSprint) {
+              nextState[riderId].sprintPoints = availableSprint.points;
+            }
           }
         }
 
         // Check main conflict
-        const mainConflict = isPositionTaken(nextState, 'main', curMain, riderId);
-        if (mainConflict.taken) {
-          const availableMain = MAIN_OPTIONS.find(
-            (opt) => !isPositionTaken(nextState, 'main', opt.points, riderId).taken
-          );
-          if (availableMain) {
-            nextState[riderId].mainPoints = availableMain.points;
+        if (curMain !== null && curMain > 0) {
+          const mainConflict = isPositionTaken(nextState, 'main', curMain, riderId);
+          if (mainConflict.taken) {
+            const availableMain = MAIN_OPTIONS.find(
+              (opt) => !isPositionTaken(nextState, 'main', opt.points, riderId).taken
+            );
+            if (availableMain) {
+              nextState[riderId].mainPoints = availableMain.points;
+            }
           }
         }
       }
@@ -166,28 +208,37 @@ export default function App() {
   };
 
   const handleReset = () => {
-    setAppState(INITIAL_APP_STATE);
+    setAppState(EMPTY_APP_STATE);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.error('Failed to clear localStorage', e);
+    }
   };
 
   const calculationResult = calculateScenario(appState);
 
   return (
-    <div className="antialiased min-h-screen pb-12 bg-slate-50 text-slate-900">
+    <div className="antialiased min-h-screen pb-12 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       <Header
-        onReset={handleReset}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode(!darkMode)}
         onOpenRules={() => setShowRulesModal(true)}
       />
 
       <main className="max-w-3xl mx-auto px-3 sm:px-4 mt-4 sm:mt-6">
-        <StandingsHeader />
+        <StandingsHeader
+          onOpenSupport={() => setShowSupportModal(true)}
+          onReset={handleReset}
+        />
 
         {/* Calculator Main Card */}
-        <div className="bg-white border border-gray-200 rounded-xl p-3 sm:p-6 md:p-8 shadow-sm">
-          <div className="flex items-center justify-between mb-4 sm:mb-6 border-b border-gray-200 pb-3">
-            <h2 className="motogp-font font-bold text-base sm:text-lg text-gray-900 uppercase tracking-tight">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl p-3 sm:p-6 md:p-8 shadow-sm transition-colors">
+          <div className="flex items-center justify-between mb-4 sm:mb-6 border-b border-gray-200 dark:border-slate-800 pb-3">
+            <h2 className="motogp-font font-bold text-base sm:text-lg text-gray-900 dark:text-white uppercase tracking-tight">
               Kalkulator poin Qatar
             </h2>
-            <span className="text-[11px] sm:text-xs text-gray-500 font-medium hidden sm:inline">
+            <span className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium hidden sm:inline">
               Pilih posisi atau total poin per pembalap
             </span>
           </div>
@@ -238,6 +289,11 @@ export default function App() {
       <RulesExplanation
         isOpen={showRulesModal}
         onClose={() => setShowRulesModal(false)}
+      />
+
+      <SupportCreatorModal
+        isOpen={showSupportModal}
+        onClose={() => setShowSupportModal(false)}
       />
     </div>
   );
