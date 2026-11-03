@@ -1,0 +1,56 @@
+export type RiderId = 'marc' | 'martin' | 'bez';
+export type CalculationMode = 'total' | 'posisi';
+
+export interface RiderConfig {
+  id: RiderId;
+  name: string;
+  number: string;
+  role: string;
+  basePoints: number;
+  gapText?: string;
+  theme: {
+    accent: string;
+    bgBadge: string;
+    cardBg: string;
+    border: string;
+    pillActive: string;
+    avatarBg: string;
+    textLight: string;
+    textDark: string;
+  };
+  totalPresets: number[];
+  defaultSprint: number;
+  defaultMain: number;
+  defaultTotal: number;
+  defaultMode: CalculationMode;
+}
+
+export interface RiderState {
+  mode: CalculationMode;
+  totalPoints: number;
+  sprintPoints: number;
+  mainPoints: number;
+  isMinimized: boolean;
+}
+
+export type AppState = Record<RiderId, RiderState>;
+
+export interface RacePositionOption {
+  position: string;
+  points: number;
+  label: string;
+}
+
+export interface CalculationResult {
+  marcSessionPoints: number;
+  martinSessionPoints: number;
+  bezSessionPoints: number;
+  marcTotal: number;
+  martinTotal: number;
+  bezTotal: number;
+  advMartin: number;
+  advBez: number;
+  isMartinClenched: boolean;
+  isBezClenched: boolean;
+  isChampion: boolean;
+}

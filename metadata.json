@@ -1,0 +1,6 @@
+{
+  "name": "Kalkulator Skenario Juara Dunia MotoGP",
+  "description": "Kalkulator simulasi skenario penguncian gelar Juara Dunia MotoGP untuk Marc Márquez, Jorge Martín, dan Marco Bezzecchi oleh iWant MotoLab.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKENARIO JUARA DUNIA MOTOGP - by iWant MotoLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .motogp-font {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        /* Custom Radio Button Styles */
+        .custom-radio input[type="radio"] {
+            display: none;
+        }
+        .custom-radio .radio-mark {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .custom-radio input[type="radio"]:checked + .radio-mark {
+            border-color: #e20613;
+            background-color: #ffffff;
+        }
+        .custom-radio .radio-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #e20613;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .custom-radio input[type="radio"]:checked + .radio-mark .radio-dot {
+            opacity: 1;
+            background-color: #e20613;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-12">
+
+    <!-- Header Section -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-3xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
+            <div class="motogp-font italic font-black text-xl sm:text-2xl tracking-tighter">
+                MotoGP<span class="text-[#e20613]">™</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-widest">
+                    2026 Title Simulator
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto px-3 sm:px-4 mt-4 sm:mt-8">
+        
+        <div class="mb-5">
+            <h1 class="motogp-font font-bold text-lg sm:text-2xl mb-1 text-gray-900 uppercase">
+                SKENARIO JUARA DUNIA MOTOGP
+            </h1>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-2">
+                <div class="text-[#e20613] font-semibold text-xs sm:text-base italic">
+                    by iWant MotoLab
+                </div>
+                <a href="https://youtube.com/@iwant_dc?si=5Y_Gnrj5q0yrKeq3" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-[#ff0000] hover:bg-[#cc0000] text-white text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full shadow-sm transition-colors w-fit">
+                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    Subscribe YouTube
+                </a>
+            </div>
+            <p class="text-gray-600 text-xs sm:text-base leading-relaxed mb-4">
+                Gunakan kalkulator sederhana ini untuk melihat apakah skenario hasil Marc memenuhi batas poin terhadap kedua rival. Dengan asumsi GP Qatar berjalan normal.
+            </p>
+
+            <!-- Tabel Informasi Poin Sekarang Rider (MotoGP 2026 official) -->
+            <div class="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 mb-5 shadow-sm">
+                <h3 class="text-[11px] sm:text-xs font-bold text-gray-500 uppercase tracking-wider mb-2.5 border-b border-gray-100 pb-2">
+                    Klasemen Poin Sebelum Seri Qatar
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+                    <div class="bg-red-50 p-2.5 sm:p-3 rounded-md border border-red-200 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden bg-red-600 flex-shrink-0 flex items-center justify-center font-bold text-xs text-white">
+                                <img src="Marc%20M%C3%A1rquez.jpg" alt="Marc Márquez" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/e20613/ffffff?text=MM';">
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-gray-900">Marc Márquez</div>
+                                <div class="text-[9px] sm:text-[10px] text-gray-500">Pimpinan Klasemen</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs sm:text-sm font-black text-red-600 italic">399 pts</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 p-2.5 sm:p-3 rounded-md border border-purple-200 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden bg-purple-700 flex-shrink-0 flex items-center justify-center font-bold text-xs text-white">
+                                <img src="Jorge%20Mart%C3%ADn.jpg" alt="Jorge Martín" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/6b21a8/ffffff?text=JM';">
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-gray-900">Jorge Martín</div>
+                                <div class="text-[9px] sm:text-[10px] text-red-600 font-bold">Gap: -44 pts</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs sm:text-sm font-black text-purple-600 italic">355 pts</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 p-2.5 sm:p-3 rounded-md border border-purple-200 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden bg-purple-700 flex-shrink-0 flex items-center justify-center font-bold text-xs text-white">
+                                <img src="Marco%20Bezzecchi.jpg" alt="Marco Bezzecchi" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/6b21a8/ffffff?text=MB';">
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-gray-900">Marco Bezzecchi</div>
+                                <div class="text-[9px] sm:text-[10px] text-red-600 font-bold">Gap: -67 pts</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs sm:text-sm font-black text-purple-600 italic">332 pts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator Card -->
+        <div class="bg-white border border-gray-200 rounded-lg p-3 sm:p-6 md:p-8 shadow-md">
+            <h2 class="font-bold text-base sm:text-lg mb-4 sm:mb-6 border-b border-gray-200 pb-3 text-gray-900">Kalkulator poin Qatar</h2>
+
+            <form id="calculator-form">
+                
+                <!-- Section 1: Marc Marquez Points (Solid Red Theme Card) -->
+                <div id="section-marc" class="mb-5 sm:mb-8 bg-red-100 p-3 sm:p-4 rounded-lg border border-red-300 shadow-sm transition-all duration-300">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2.5 border-b border-red-200 pb-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-red-600 border border-red-500 flex-shrink-0 flex items-center justify-center font-bold text-xs text-white">
+                                <img src="Marc%20M%C3%A1rquez.jpg" alt="Marc Márquez" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/e20613/ffffff?text=MM93';">
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="text-xs sm:text-sm font-semibold text-gray-900">Marc Márquez</h3>
+                                    <span class="text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 rounded bg-red-600 text-white">93</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end gap-2.5 flex-wrap">
+                            <div class="text-left sm:text-right">
+                                <span class="text-[10px] sm:text-xs text-gray-700 block sm:inline">Poin Seri Ini: </span>
+                                <span class="text-base sm:text-lg font-black text-amber-700 italic" id="points-marc">29</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="flex bg-white p-0.5 rounded-md border border-gray-300">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="marc_mode" value="total" class="peer hidden">
+                                        <div class="px-2.5 py-1 rounded text-[11px] font-semibold text-gray-500 peer-checked:bg-red-600 peer-checked:text-white peer-checked:shadow-sm transition-colors">Total</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="marc_mode" value="posisi" class="peer hidden" checked>
+                                        <div class="px-2.5 py-1 rounded text-[11px] font-semibold text-gray-500 peer-checked:bg-red-600 peer-checked:text-white peer-checked:shadow-sm transition-colors">Posisi</div>
+                                    </label>
+                                </div>
+                                <button type="button" data-target="marc" class="toggle-minimize bg-white hover:bg-gray-100 text-gray-700 text-xs w-7 h-7 flex items-center justify-center rounded border border-gray-300 transition-colors" title="Minimize / Maximize">
+                                    ▼
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Marc Total Mode -->
+                    <div id="marc_mode_total" class="hidden space-y-2 flex-col collapsible-content">
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_points" value="0"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">0 poin</span></label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_points" value="10"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">10 poin</span></label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_points" value="20"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">20 poin</span></label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_points" value="29" checked><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">29 poin</span></label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_points" value="37"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">37 poin</span></label>
+                    </div>
+
+                    <!-- Marc Position Mode -->
+                    <div id="marc_mode_posisi" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-white p-2.5 sm:p-4 rounded-lg border border-red-200 collapsible-content shadow-inner">
+                        <!-- Sprint Race: Red Accent -->
+                        <div class="bg-red-50 border border-red-200 p-2.5 sm:p-3 rounded-md">
+                            <h4 class="text-[11px] sm:text-xs font-bold text-red-600 mb-2.5 border-b border-red-200 pb-1 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-red-600"></span> Sprint Race
+                            </h4>
+                            <div class="space-y-1.5 sm:space-y-2 flex flex-col">
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="12"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P1 — 12 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="9" checked><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P2 — 9 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="7"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P3 — 7 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="6"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P4 — 6 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="5"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P5 — 5 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="4"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P6 — 4 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="3"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P7 — 3 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="2"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P8 — 2 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="1"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P9 — 1 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_sprint" value="0"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">DNF/Luar Poin — 0</span></label>
+                            </div>
+                        </div>
+                        <!-- Race Utama: Blue Accent -->
+                        <div class="bg-blue-50 border border-blue-200 p-2.5 sm:p-3 rounded-md">
+                            <h4 class="text-[11px] sm:text-xs font-bold text-blue-600 mb-2.5 border-b border-blue-200 pb-1 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Race Utama
+                            </h4>
+                            <div class="space-y-1.5 sm:space-y-2 flex flex-col">
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="25"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P1 — 25 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="20" checked><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P2 — 20 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="16"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P3 — 16 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="13"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P4 — 13 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="11"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P5 — 11 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="10"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P6 — 10 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="9"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P7 — 9 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="8"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P8 — 8 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="7"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P9 — 7 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="6"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P10 — 6 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="5"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P11 — 5 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="4"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P12 — 4 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="3"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P13 — 3 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="2"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P14 — 2 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="1"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P15 — 1 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="marc_main" value="0"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">DNF/Luar Poin — 0</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Minimized Summary View -->
+                    <div id="marc_minimized_summary" class="hidden text-xs text-gray-700 bg-white p-2.5 rounded border border-red-200 flex items-center justify-between">
+                        <span id="marc_summary_text" class="italic text-gray-600">Pilihan: Sprint P2 (9), Main P2 (20)</span>
+                        <span class="text-red-600 font-bold" id="marc_summary_pts">Total: 29 poin</span>
+                    </div>
+                </div>
+
+                <!-- Section 2: Jorge Martin Points (Solid Purple Theme Card) -->
+                <div id="section-martin" class="mb-5 sm:mb-8 bg-purple-100 p-3 sm:p-4 rounded-lg border border-purple-300 shadow-sm transition-all duration-300">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2.5 border-b border-purple-200 pb-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-purple-700 border border-purple-500 flex-shrink-0 flex items-center justify-center font-bold text-xs text-white">
+                                <img src="Jorge%20Mart%C3%ADn.jpg" alt="Jorge Martín" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/6b21a8/ffffff?text=JM89';">
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="text-xs sm:text-sm font-semibold text-gray-900">Jorge Martín</h3>
+                                    <span class="text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 rounded bg-purple-600 text-white">89</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end gap-2.5 flex-wrap">
+                            <div class="text-left sm:text-right">
+                                <span class="text-[10px] sm:text-xs text-gray-700 block sm:inline">Poin Seri Ini: </span>
+                                <span class="text-base sm:text-lg font-black text-amber-700 italic" id="points-martin">12</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="flex bg-white p-0.5 rounded-md border border-gray-300">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="martin_mode" value="total" class="peer hidden" checked>
+                                        <div class="px-2.5 py-1 rounded text-[11px] font-semibold text-gray-500 peer-checked:bg-purple-600 peer-checked:text-white peer-checked:shadow-sm transition-colors">Total</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="martin_mode" value="posisi" class="peer hidden">
+                                        <div class="px-2.5 py-1 rounded text-[11px] font-semibold text-gray-500 peer-checked:bg-purple-600 peer-checked:text-white peer-checked:shadow-sm transition-colors">Posisi</div>
+                                    </label>
+                                </div>
+                                <button type="button" data-target="martin" class="toggle-minimize bg-white hover:bg-gray-100 text-gray-700 text-xs w-7 h-7 flex items-center justify-center rounded border border-gray-300 transition-colors" title="Minimize / Maximize">
+                                    ▼
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Martin Total Mode -->
+                    <div id="martin_mode_total" class="space-y-2 flex flex-col collapsible-content">
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="martin_points" value="0">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">0 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="martin_points" value="2">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">2 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="martin_points" value="4">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">4 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="martin_points" value="7">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">7 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="martin_points" value="12" checked>
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">12 poin</span>
+                        </label>
+                    </div>
+
+                    <!-- Martin Position Mode -->
+                    <div id="martin_mode_posisi" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-white p-2.5 sm:p-4 rounded-lg border border-purple-200 collapsible-content shadow-inner">
+                        <!-- Sprint Race: Red Accent -->
+                        <div class="bg-red-50 border border-red-200 p-2.5 sm:p-3 rounded-md">
+                            <h4 class="text-[11px] sm:text-xs font-bold text-red-600 mb-2.5 border-b border-red-200 pb-1 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-red-600"></span> Sprint Race
+                            </h4>
+                            <div class="space-y-1.5 sm:space-y-2 flex flex-col">
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="12" checked><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P1 — 12 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="9"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P2 — 9 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="7"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P3 — 7 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="6"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P4 — 6 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="5"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P5 — 5 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="4"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P6 — 4 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="3"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P7 — 3 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="2"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P8 — 2 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="1"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P9 — 1 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_sprint" value="0"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">DNF/Luar Poin — 0</span></label>
+                            </div>
+                        </div>
+                        <!-- Race Utama: Blue Accent -->
+                        <div class="bg-blue-50 border border-blue-200 p-2.5 sm:p-3 rounded-md">
+                            <h4 class="text-[11px] sm:text-xs font-bold text-blue-600 mb-2.5 border-b border-blue-200 pb-1 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Race Utama
+                            </h4>
+                            <div class="space-y-1.5 sm:space-y-2 flex flex-col">
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="25" checked><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P1 — 25 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="20"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P2 — 20 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="16"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P3 — 16 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="13"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P4 — 13 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="11"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P5 — 11 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="10"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P6 — 10 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="9"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P7 — 9 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="8"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P8 — 8 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="7"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P9 — 7 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="6"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P10 — 6 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="5"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P11 — 5 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="4"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P12 — 4 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="3"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P13 — 3 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="2"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P14 — 2 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="1"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P15 — 1 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="martin_main" value="0"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">DNF/Luar Poin — 0</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Minimized Summary View -->
+                    <div id="martin_minimized_summary" class="hidden text-xs text-gray-700 bg-white p-2.5 rounded border border-purple-200 flex items-center justify-between">
+                        <span id="martin_summary_text" class="italic text-gray-600">Pilihan: Total Poin (12)</span>
+                        <span class="text-purple-600 font-bold" id="martin_summary_pts">Total: 12 poin</span>
+                    </div>
+                </div>
+
+                <!-- Section 3: Marco Bezzecchi Points (Solid Purple Theme Card) -->
+                <div id="section-bez" class="mb-5 sm:mb-8 bg-purple-100 p-3 sm:p-4 rounded-lg border border-purple-300 shadow-sm transition-all duration-300">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2.5 border-b border-purple-200 pb-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden bg-purple-700 border border-purple-500 flex-shrink-0 flex items-center justify-center font-bold text-xs text-white">
+                                <img src="Marco%20Bezzecchi.jpg" alt="Marco Bezzecchi" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/6b21a8/ffffff?text=MB72';">
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="text-xs sm:text-sm font-semibold text-gray-900">Marco Bezzecchi</h3>
+                                    <span class="text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 rounded bg-purple-600 text-white">72</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end gap-2.5 flex-wrap">
+                            <div class="text-left sm:text-right">
+                                <span class="text-[10px] sm:text-xs text-gray-700 block sm:inline">Poin Seri Ini: </span>
+                                <span class="text-base sm:text-lg font-black text-amber-700 italic" id="points-bez">37</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="flex bg-white p-0.5 rounded-md border border-gray-300">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="bez_mode" value="total" class="peer hidden" checked>
+                                        <div class="px-2.5 py-1 rounded text-[11px] font-semibold text-gray-500 peer-checked:bg-purple-600 peer-checked:text-white peer-checked:shadow-sm transition-colors">Total</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="bez_mode" value="posisi" class="peer hidden">
+                                        <div class="px-2.5 py-1 rounded text-[11px] font-semibold text-gray-500 peer-checked:bg-purple-600 peer-checked:text-white peer-checked:shadow-sm transition-colors">Posisi</div>
+                                    </label>
+                                </div>
+                                <button type="button" data-target="bez" class="toggle-minimize bg-white hover:bg-gray-100 text-gray-700 text-xs w-7 h-7 flex items-center justify-center rounded border border-gray-300 transition-colors" title="Minimize / Maximize">
+                                    ▼
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bezzecchi Total Mode -->
+                    <div id="bez_mode_total" class="space-y-2 flex flex-col collapsible-content">
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="bez_points" value="0">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">0 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="bez_points" value="10">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">10 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="bez_points" value="22">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">22 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="bez_points" value="24">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">24 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="bez_points" value="29">
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">29 poin</span>
+                        </label>
+                        <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit">
+                            <input type="radio" name="bez_points" value="37" checked>
+                            <div class="radio-mark"><div class="radio-dot"></div></div>
+                            <span class="radio-text text-xs sm:text-sm text-gray-800 group-hover:text-gray-900">37 poin</span>
+                        </label>
+                    </div>
+
+                    <!-- Bezzecchi Position Mode -->
+                    <div id="bez_mode_posisi" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-white p-2.5 sm:p-4 rounded-lg border border-purple-200 collapsible-content shadow-inner">
+                        <!-- Sprint Race: Red Accent -->
+                        <div class="bg-red-50 border border-red-200 p-2.5 sm:p-3 rounded-md">
+                            <h4 class="text-[11px] sm:text-xs font-bold text-red-600 mb-2.5 border-b border-red-200 pb-1 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-red-600"></span> Sprint Race
+                            </h4>
+                            <div class="space-y-1.5 sm:space-y-2 flex flex-col">
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="12" checked><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P1 — 12 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="9"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P2 — 9 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="7"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P3 — 7 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="6"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P4 — 6 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="5"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P5 — 5 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="4"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P6 — 4 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="3"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P7 — 3 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="2"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P8 — 2 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="1"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P9 — 1 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_sprint" value="0"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">DNF/Luar Poin — 0</span></label>
+                            </div>
+                        </div>
+                        <!-- Race Utama: Blue Accent -->
+                        <div class="bg-blue-50 border border-blue-200 p-2.5 sm:p-3 rounded-md">
+                            <h4 class="text-[11px] sm:text-xs font-bold text-blue-600 mb-2.5 border-b border-blue-200 pb-1 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Race Utama
+                            </h4>
+                            <div class="space-y-1.5 sm:space-y-2 flex flex-col">
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="25" checked><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P1 — 25 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="20"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P2 — 20 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="16"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P3 — 16 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="13"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P4 — 13 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="11"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P5 — 11 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="10"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P6 — 10 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="9"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P7 — 9 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="8"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P8 — 8 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="7"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P9 — 7 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="6"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P10 — 6 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="5"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P11 — 5 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="4"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P12 — 4 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="3"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P13 — 3 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="2"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P14 — 2 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="1"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">P15 — 1 poin</span></label>
+                                <label class="custom-radio flex items-center gap-2.5 cursor-pointer group w-fit"><input type="radio" name="bez_main" value="0"><div class="radio-mark"><div class="radio-dot"></div></div><span class="radio-text text-xs sm:text-sm text-gray-700 group-hover:text-gray-900">DNF/Luar Poin — 0</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Minimized Summary View -->
+                    <div id="bez_minimized_summary" class="hidden text-xs text-gray-700 bg-white p-2.5 rounded border border-purple-200 flex items-center justify-between">
+                        <span id="bez_summary_text" class="italic text-gray-600">Pilihan: Total Poin (37)</span>
+                        <span class="text-purple-600 font-bold" id="bez_summary_pts">Total: 37 poin</span>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="pt-4 sm:pt-6 border-t border-gray-200">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-5 sm:mb-6">
+                        <div class="bg-red-50 p-3 rounded-lg border border-red-200 text-center">
+                            <span class="text-[11px] sm:text-xs text-gray-600 block mb-1">Total Poin Akhir Marc</span>
+                            <span class="text-xl sm:text-2xl font-bold text-red-600" id="total-marc">428 poin</span>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded-lg border border-purple-200 text-center">
+                            <span class="text-[11px] sm:text-xs text-gray-600 block mb-1">Total Poin Akhir Martín</span>
+                            <span class="text-xl sm:text-2xl font-bold text-purple-600" id="total-martin">367 poin</span>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded-lg border border-purple-200 text-center">
+                            <span class="text-[11px] sm:text-xs text-gray-600 block mb-1">Total Poin Akhir Bezzecchi</span>
+                            <span class="text-xl sm:text-2xl font-bold text-purple-600" id="total-bez">369 poin</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs sm:text-sm text-gray-700">Keunggulan atas Martín (Target: min. 74 poin)</span>
+                        <span class="text-xs sm:text-sm font-bold" id="adv-martin">61 poin</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-5 sm:mb-6">
+                        <span class="text-xs sm:text-sm text-gray-700">Keunggulan atas Bezzecchi (Target: min. 75 poin)</span>
+                        <span class="text-xs sm:text-sm font-bold" id="adv-bez">59 poin</span>
+                    </div>
+
+                    <div id="status-container" class="mb-4 sm:mb-6">
+                        <h4 id="status-title" class="text-red-600 font-bold mb-1 text-sm sm:text-base">Gelar belum terkunci</h4>
+                        <p id="status-desc" class="text-[11px] sm:text-xs text-gray-600">Hitungan poin akhir keseluruhan, target mutlak Marc Marquez adalah mengakhiri seri MotoGP Qatar dengan keunggulan minimal 74 poin unggul dari Martin dan 75 poin unggul dari Bezzecchi.</p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('calculator-form');
+        const totalMarcEl = document.getElementById('total-marc');
+        const totalMartinEl = document.getElementById('total-martin');
+        const totalBezEl = document.getElementById('total-bez');
+        const advMartinEl = document.getElementById('adv-martin');
+        const advBezEl = document.getElementById('adv-bez');
+        
+        const pointsMarcEl = document.getElementById('points-marc');
+        const pointsMartinEl = document.getElementById('points-martin');
+        const pointsBezEl = document.getElementById('points-bez');
+        
+        const statusTitleEl = document.getElementById('status-title');
+        const statusDescEl = document.getElementById('status-desc');
+
+        // Toggle UI elements
+        const marcModeTotal = document.getElementById('marc_mode_total');
+        const marcModePosisi = document.getElementById('marc_mode_posisi');
+        const martinModeTotal = document.getElementById('martin_mode_total');
+        const martinModePosisi = document.getElementById('martin_mode_posisi');
+        const bezModeTotal = document.getElementById('bez_mode_total');
+        const bezModePosisi = document.getElementById('bez_mode_posisi');
+
+        const BASE_MARC = 399;
+        const BASE_MARTIN = 355;
+        const BASE_BEZ = 332;
+        const CLINCH_MARTIN = 74;
+        const CLINCH_BEZ = 75;
+
+        // Restore saved states from localStorage if available
+        function loadSavedState() {
+            const savedState = localStorage.getItem('motogp_simulator_state');
+            if (savedState) {
+                try {
+                    const stateData = JSON.parse(savedState);
+                    for (const [name, value] of Object.entries(stateData)) {
+                        const input = form.querySelector(`input[name="${name}"][value="${value}"]`);
+                        if (input) {
+                            input.checked = true;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Failed to load saved state', e);
+                }
+            }
+        }
+
+        // Save current form state to localStorage
+        function saveState() {
+            const formData = new FormData(form);
+            const stateData = {};
+            for (const [key, value] of formData.entries()) {
+                stateData[key] = value;
+            }
+            localStorage.setItem('motogp_simulator_state', JSON.stringify(stateData));
+        }
+
+        // Handle Minimize/Maximize functionality
+        const minimizeButtons = document.querySelectorAll('.toggle-minimize');
+        minimizeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetKey = btn.getAttribute('data-target');
+                const section = document.getElementById(`section-${targetKey}`);
+                const modeTotal = document.getElementById(`${targetKey}_mode_total`);
+                const modePosisi = document.getElementById(`${targetKey}_mode_posisi`);
+                const summaryBox = document.getElementById(`${targetKey}_minimized_summary`);
+                
+                const isMinimized = btn.textContent.trim() === '▲';
+
+                if (isMinimized) {
+                    // Maximize
+                    btn.textContent = '▼';
+                    summaryBox.classList.add('hidden');
+                    const currentMode = document.querySelector(`input[name="${targetKey}_mode"]:checked`).value;
+                    if (currentMode === 'total') {
+                        modeTotal.classList.remove('hidden');
+                    } else {
+                        modePosisi.classList.remove('hidden');
+                    }
+                } else {
+                    // Minimize
+                    btn.textContent = '▲';
+                    modeTotal.classList.add('hidden');
+                    modePosisi.classList.add('hidden');
+                    summaryBox.classList.remove('hidden');
+                    updateSummaryText(targetKey);
+                }
+            });
+        });
+
+        function updateSummaryText(riderKey) {
+            const formData = new FormData(form);
+            const mode = formData.get(`${riderKey}_mode`);
+            let text = '';
+            let pts = 0;
+
+            const colorClass = riderKey === 'marc' ? 'text-red-600 font-bold' : 'text-purple-600 font-bold';
+
+            if (mode === 'total') {
+                pts = parseInt(formData.get(`${riderKey}_points`) || 0);
+                text = `Pilihan: Total Poin (<span class="${colorClass}">${pts}</span> pts)`;
+            } else {
+                const sprintVal = parseInt(formData.get(`${riderKey}_sprint`) || 0);
+                const mainVal = parseInt(formData.get(`${riderKey}_main`) || 0);
+                pts = sprintVal + mainVal;
+                
+                const sprintRadio = document.querySelector(`input[name="${riderKey}_sprint"]:checked`);
+                const mainRadio = document.querySelector(`input[name="${riderKey}_main"]:checked`);
+                const sprintLabel = sprintRadio ? sprintRadio.parentElement.querySelector('.radio-text').textContent.split(' — ')[0] : 'P?';
+                const mainLabel = mainRadio ? mainRadio.parentElement.querySelector('.radio-text').textContent.split(' — ')[0] : 'P?';
+                
+                text = `Sprint: <span class="${colorClass}">${sprintLabel}</span> (${sprintVal}p) | Utama: <span class="${colorClass}">${mainLabel}</span> (${mainVal}p)`;
+            }
+
+            document.getElementById(`${riderKey}_summary_text`).innerHTML = text;
+            document.getElementById(`${riderKey}_summary_pts`).textContent = `Total: ${pts} poin`;
+        }
+
+        function syncModeVisibility() {
+            const marcMode = document.querySelector('input[name="marc_mode"]:checked')?.value || 'posisi';
+            if (marcMode === 'total') {
+                marcModeTotal.classList.remove('hidden');
+                marcModeTotal.classList.add('flex');
+                marcModePosisi.classList.add('hidden');
+            } else {
+                marcModeTotal.classList.add('hidden');
+                marcModeTotal.classList.remove('flex');
+                marcModePosisi.classList.remove('hidden');
+            }
+
+            const martinMode = document.querySelector('input[name="martin_mode"]:checked')?.value || 'total';
+            if (martinMode === 'total') {
+                martinModeTotal.classList.remove('hidden');
+                martinModePosisi.classList.add('hidden');
+            } else {
+                martinModeTotal.classList.add('hidden');
+                martinModePosisi.classList.remove('hidden');
+            }
+
+            const bezMode = document.querySelector('input[name="bez_mode"]:checked')?.value || 'total';
+            if (bezMode === 'total') {
+                bezModeTotal.classList.remove('hidden');
+                bezModePosisi.classList.add('hidden');
+            } else {
+                bezModeTotal.classList.add('hidden');
+                bezModePosisi.classList.remove('hidden');
+            }
+        }
+
+        form.addEventListener('change', (e) => {
+            if (e.target.name === 'marc_mode' || e.target.name === 'martin_mode' || e.target.name === 'bez_mode') {
+                syncModeVisibility();
+            }
+            updateAvailablePositions();
+            calculate();
+            saveState();
+            
+            ['marc', 'martin', 'bez'].forEach(key => {
+                const btn = document.querySelector(`button[data-target="${key}"]`);
+                if (btn && btn.textContent.trim() === '▲') {
+                    updateSummaryText(key);
+                }
+            });
+        });
+
+        function updateAvailablePositions() {
+            const riderNames = {
+                'marc': 'Marc Márquez',
+                'martin': 'Jorge Martín',
+                'bez': 'Marco Bezzecchi'
+            };
+
+            const groups = ['sprint', 'main'];
+
+            groups.forEach(session => {
+                const riders = ['marc', 'martin', 'bez'];
+                
+                riders.forEach(currentRider => {
+                    const mode = document.querySelector(`input[name="${currentRider}_mode"]:checked`)?.value;
+                    if (mode !== 'posisi') return;
+
+                    const otherRiders = riders.filter(r => r !== currentRider);
+                    const takenValues = otherRiders
+                        .filter(r => document.querySelector(`input[name="${r}_mode"]:checked`)?.value === 'posisi')
+                        .map(r => {
+                            const rEl = document.querySelector(`input[name="${r}_${session}"]:checked`);
+                            return rEl ? rEl.value : null;
+                        })
+                        .filter(val => val !== null && val !== "0");
+
+                    const radios = document.querySelectorAll(`input[name="${currentRider}_${session}"]`);
+                    radios.forEach(radio => {
+                        const label = radio.parentElement;
+                        let note = label.querySelector('.taken-note');
+
+                        if (radio.value !== "0" && takenValues.includes(radio.value)) {
+                            radio.disabled = true;
+                            label.style.opacity = '0.35';
+                            label.style.cursor = 'not-allowed';
+
+                            let takenBy = '';
+                            for (const r of otherRiders) {
+                                const rEl = document.querySelector(`input[name="${r}_${session}"]:checked`);
+                                if (rEl && rEl.value === radio.value) {
+                                    takenBy = riderNames[r];
+                                    break;
+                                }
+                            }
+
+                            if (!note) {
+                                note = document.createElement('span');
+                                note.className = 'taken-note text-[9px] sm:text-[10px] text-red-600 italic ml-auto font-medium';
+                                label.appendChild(note);
+                            }
+                            note.textContent = `P ${takenBy}`;
+
+                            if (radio.checked) {
+                                const fallback = Array.from(radios).find(r => !r.disabled);
+                                if (fallback) {
+                                    fallback.checked = true;
+                                }
+                            }
+                        } else {
+                            radio.disabled = false;
+                            label.style.opacity = '1';
+                            label.style.cursor = 'pointer';
+                            if (note) {
+                                note.remove();
+                            }
+                        }
+                    });
+                });
+            });
+        }
+
+        function calculate() {
+            const formData = new FormData(form);
+            
+            let serMarc = 0;
+            if (formData.get('marc_mode') === 'posisi') {
+                serMarc = parseInt(formData.get('marc_sprint') || 0) + parseInt(formData.get('marc_main') || 0);
+            } else {
+                serMarc = parseInt(formData.get('marc_points') || 0);
+            }
+            const totalMarc = BASE_MARC + serMarc;
+
+            let serMartin = 0;
+            if (formData.get('martin_mode') === 'posisi') {
+                serMartin = parseInt(formData.get('martin_sprint') || 0) + parseInt(formData.get('martin_main') || 0);
+            } else {
+                serMartin = parseInt(formData.get('martin_points') || 0);
+            }
+            const totalMartin = BASE_MARTIN + serMartin;
+
+            let serBez = 0;
+            if (formData.get('bez_mode') === 'posisi') {
+                serBez = parseInt(formData.get('bez_sprint') || 0) + parseInt(formData.get('bez_main') || 0);
+            } else {
+                serBez = parseInt(formData.get('bez_points') || 0);
+            }
+            const totalBez = BASE_BEZ + serBez;
+
+            const advMartin = totalMarc - totalMartin;
+            const advBez = totalMarc - totalBez;
+
+            pointsMarcEl.textContent = serMarc;
+            pointsMartinEl.textContent = serMartin;
+            pointsBezEl.textContent = serBez;
+
+            totalMarcEl.textContent = `${totalMarc} poin`;
+            totalMartinEl.textContent = `${totalMartin} poin`;
+            totalBezEl.textContent = `${totalBez} poin`;
+            
+            advMartinEl.textContent = `${advMartin} poin`;
+            if (advMartin >= CLINCH_MARTIN) {
+                advMartinEl.className = "text-sm font-bold text-green-600";
+            } else {
+                advMartinEl.className = "text-sm font-bold text-red-600";
+            }
+
+            advBezEl.textContent = `${advBez} poin`;
+            if (advBez >= CLINCH_BEZ) {
+                advBezEl.className = "text-sm font-bold text-green-600";
+            } else {
+                advBezEl.className = "text-sm font-bold text-red-600";
+            }
+
+            if (advMartin >= CLINCH_MARTIN && advBez >= CLINCH_BEZ) {
+                statusTitleEl.textContent = "Gelar Juara Dunia Terkunci!";
+                statusTitleEl.className = "text-green-600 font-bold mb-1 text-lg";
+                statusDescEl.textContent = "Keunggulan poin sudah mencapai target mutlak (minimal 74 dari Martin dan 75 dari Bezzecchi) di seri MotoGP Qatar!";
+            } else {
+                statusTitleEl.textContent = "Gelar belum terkunci";
+                statusTitleEl.className = "text-red-600 font-bold mb-1";
+                statusDescEl.textContent = "Hitungan poin akhir keseluruhan, target mutlak Marc Marquez adalah mengakhiri seri MotoGP Qatar dengan keunggulan minimal 74 poin unggul dari Martin dan 75 poin unggul dari Bezzecchi.";
+            }
+        }
+
+        loadSavedState();
+        syncModeVisibility();
+        updateAvailablePositions();
+        calculate();
+    });
+</script>
+</body>
+</html>
