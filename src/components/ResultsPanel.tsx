@@ -138,7 +138,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
             ) : (
               <XCircle className="w-4 h-4 text-red-500 inline flex-shrink-0" />
             )}
-            Keunggulan atas Martín <span className="text-gray-500 dark:text-gray-400 font-normal">(Target: min. {CLINCH_MARTIN} poin)</span>
+            Keunggulan atas Martín
           </span>
           <span
             id="adv-martin"
@@ -173,7 +173,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
             ) : (
               <XCircle className="w-4 h-4 text-red-500 inline flex-shrink-0" />
             )}
-            Keunggulan atas Bezzecchi <span className="text-gray-500 dark:text-gray-400 font-normal">(Target: min. {CLINCH_BEZ} poin)</span>
+            Keunggulan atas Bezzecchi
           </span>
           <span
             id="adv-bez"

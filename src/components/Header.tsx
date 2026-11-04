@@ -1,13 +1,13 @@
 import React from 'react';
-import { HelpCircle, Youtube, Sun, Moon } from 'lucide-react';
+import { Youtube, Sun, Moon } from 'lucide-react';
 
 interface HeaderProps {
   darkMode: boolean;
   onToggleDarkMode: () => void;
-  onOpenRules: () => void;
+  onOpenRules?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ darkMode, onToggleDarkMode, onOpenRules }) => {
+export const Header: React.FC<HeaderProps> = ({ darkMode, onToggleDarkMode }) => {
   return (
     <header className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-200 dark:border-slate-800 sticky top-0 z-20 shadow-sm transition-colors">
       <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-red-600 via-amber-500 to-red-600" />
@@ -39,17 +39,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, onToggleDarkMode, onOp
               <Moon className="w-4 h-4 text-slate-700" />
             )}
             <span className="hidden sm:inline ml-1 text-[11px]">{darkMode ? 'Terang' : 'Gelap'}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={onOpenRules}
-            aria-label="Aturan Poin dan Skenario"
-            className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 px-2.5 py-1.5 rounded-md transition-colors cursor-pointer"
-            title="Penjelasan Perhitungan Poin"
-          >
-            <HelpCircle className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" />
-            <span className="hidden xs:inline">Aturan Poin</span>
           </button>
 
           <a

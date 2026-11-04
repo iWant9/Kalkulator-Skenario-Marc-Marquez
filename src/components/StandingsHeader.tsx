@@ -1,5 +1,4 @@
 import React from 'react';
-import { RiderAvatar } from './RiderAvatar';
 import { BASE_STANDINGS } from '../utils/calculator';
 import { RotateCcw } from 'lucide-react';
 
@@ -81,21 +80,18 @@ export const StandingsHeader: React.FC<StandingsHeaderProps> = ({ onOpenSupport,
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+        <div className="flex flex-col gap-2.5">
           {/* Marc */}
-          <div className="bg-red-50 dark:bg-red-950/40 p-2.5 sm:p-3 rounded-lg border border-red-200 dark:border-red-900/50 flex flex-col justify-between transition-all hover:border-red-300 shadow-2xs">
-            <div className="flex items-center gap-2.5 mb-2.5">
-              <RiderAvatar riderId="marc" name="Marc Márquez" number="93" size="sm" />
-              <div className="min-w-0">
-                <div className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1">
-                  Marc Márquez
-                  <span className="text-[9px] bg-red-600 text-white font-black px-1 rounded">#93</span>
-                </div>
-                <div className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 font-medium">Pimpinan Klasemen</div>
+          <div className="bg-red-50 dark:bg-red-950/40 p-2.5 sm:p-3 rounded-lg border border-red-200 dark:border-red-900/50 flex items-center justify-between transition-all hover:border-red-300 shadow-2xs">
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5 flex-wrap">
+                Marc Márquez
+                <span className="text-[9px] bg-red-600 text-white font-black px-1.5 py-0.5 rounded">#93</span>
               </div>
+              <div className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 font-medium">Pimpinan Klasemen</div>
             </div>
-            <div className="pt-2 border-t border-red-200/70 dark:border-red-900/50 flex items-center justify-between">
-              <span className="text-[10px] sm:text-[11px] text-red-700 dark:text-red-400 font-bold bg-red-100/90 dark:bg-red-900/40 border border-red-200 dark:border-red-800 px-1.5 py-0.5 rounded">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <span className="text-[10px] sm:text-[11px] text-red-700 dark:text-red-400 font-bold bg-red-100/90 dark:bg-red-900/40 border border-red-200 dark:border-red-800 px-2 py-0.5 rounded">
                 Leader
               </span>
               <span className="text-sm sm:text-base font-black text-red-600 dark:text-red-500 italic">
@@ -105,19 +101,16 @@ export const StandingsHeader: React.FC<StandingsHeaderProps> = ({ onOpenSupport,
           </div>
 
           {/* Martin */}
-          <div className="bg-purple-50 dark:bg-slate-800/80 p-2.5 sm:p-3 rounded-lg border border-purple-200 dark:border-slate-700 flex flex-col justify-between transition-all hover:border-purple-300 shadow-2xs">
-            <div className="flex items-center gap-2.5 mb-2.5">
-              <RiderAvatar riderId="martin" name="Jorge Martín" number="89" size="sm" />
-              <div className="min-w-0">
-                <div className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1">
-                  Jorge Martín
-                  <span className="text-[9px] bg-purple-600 text-white font-black px-1 rounded">#89</span>
-                </div>
-                <div className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 font-medium">Peringkat 2 Klasemen</div>
+          <div className="bg-purple-50 dark:bg-slate-800/80 p-2.5 sm:p-3 rounded-lg border border-purple-200 dark:border-slate-700 flex items-center justify-between transition-all hover:border-purple-300 shadow-2xs">
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5 flex-wrap">
+                Jorge Martín
+                <span className="text-[9px] bg-purple-600 text-white font-black px-1.5 py-0.5 rounded">#89</span>
               </div>
+              <div className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 font-medium">Peringkat 2 Klasemen</div>
             </div>
-            <div className="pt-2 border-t border-purple-200/70 dark:border-slate-700 flex items-center justify-between">
-              <span className="text-[10px] sm:text-[11px] text-red-600 dark:text-red-400 font-bold bg-red-100/90 dark:bg-red-950/60 border border-red-200 dark:border-red-900/50 px-1.5 py-0.5 rounded">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <span className="text-[10px] sm:text-[11px] text-red-600 dark:text-red-400 font-bold bg-red-100/90 dark:bg-red-950/60 border border-red-200 dark:border-red-900/50 px-2 py-0.5 rounded">
                 Gap: -44 pts
               </span>
               <span className="text-sm sm:text-base font-black text-purple-700 dark:text-purple-400 italic">
@@ -127,19 +120,16 @@ export const StandingsHeader: React.FC<StandingsHeaderProps> = ({ onOpenSupport,
           </div>
 
           {/* Bezzecchi */}
-          <div className="bg-purple-50 dark:bg-slate-800/80 p-2.5 sm:p-3 rounded-lg border border-purple-200 dark:border-slate-700 flex flex-col justify-between transition-all hover:border-purple-300 shadow-2xs">
-            <div className="flex items-center gap-2.5 mb-2.5">
-              <RiderAvatar riderId="bez" name="Marco Bezzecchi" number="72" size="sm" />
-              <div className="min-w-0">
-                <div className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1">
-                  Marco Bezzecchi
-                  <span className="text-[9px] bg-purple-600 text-white font-black px-1 rounded">#72</span>
-                </div>
-                <div className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 font-medium">Peringkat 3 Klasemen</div>
+          <div className="bg-purple-50 dark:bg-slate-800/80 p-2.5 sm:p-3 rounded-lg border border-purple-200 dark:border-slate-700 flex items-center justify-between transition-all hover:border-purple-300 shadow-2xs">
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5 flex-wrap">
+                Marco Bezzecchi
+                <span className="text-[9px] bg-purple-600 text-white font-black px-1.5 py-0.5 rounded">#72</span>
               </div>
+              <div className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 font-medium">Peringkat 3 Klasemen</div>
             </div>
-            <div className="pt-2 border-t border-purple-200/70 dark:border-slate-700 flex items-center justify-between">
-              <span className="text-[10px] sm:text-[11px] text-red-600 dark:text-red-400 font-bold bg-red-100/90 dark:bg-red-950/60 border border-red-200 dark:border-red-900/50 px-1.5 py-0.5 rounded">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <span className="text-[10px] sm:text-[11px] text-red-600 dark:text-red-400 font-bold bg-red-100/90 dark:bg-red-950/60 border border-red-200 dark:border-red-900/50 px-2 py-0.5 rounded">
                 Gap: -67 pts
               </span>
               <span className="text-sm sm:text-base font-black text-purple-700 dark:text-purple-400 italic">
