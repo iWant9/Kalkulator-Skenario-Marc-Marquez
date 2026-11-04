@@ -90,41 +90,47 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
 
   return (
     <div className="pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 transition-colors">
-      {/* 3 Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-5 sm:mb-6">
-        <div className="bg-red-50 dark:bg-red-950/40 p-3 sm:p-4 rounded-lg border border-red-200 dark:border-red-900/50 text-center shadow-2xs">
-          <span className="text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 block mb-1 font-medium">
-            Total Poin Akhir Marc
-          </span>
-          <span id="total-marc" className="text-xl sm:text-2xl font-black text-red-600 dark:text-red-500 tracking-tight">
+      {/* Total Poin Akhir Summary Cards (Horizontal Layout) */}
+      <div className="grid grid-cols-1 gap-2.5 mb-5 sm:mb-6">
+        <div className="bg-red-50 dark:bg-red-950/40 p-3 sm:p-3.5 rounded-lg border border-red-200 dark:border-red-900/50 flex items-center justify-between gap-2 transition-all shadow-2xs">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white">
+              Total Poin Akhir Marc
+            </span>
+            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium">
+              (399 + {result.marcSessionPoints !== null ? result.marcSessionPoints : '-'})
+            </span>
+          </div>
+          <span id="total-marc" className="text-base sm:text-xl font-black text-red-600 dark:text-red-500 italic tracking-tight shrink-0">
             {marcTotal} poin
           </span>
-          <span className="text-[10px] text-gray-500 dark:text-gray-400 block mt-0.5">
-            (399 + {result.marcSessionPoints !== null ? result.marcSessionPoints : '-'})
-          </span>
         </div>
 
-        <div className="bg-purple-50 dark:bg-slate-800/80 p-3 sm:p-4 rounded-lg border border-purple-200 dark:border-slate-700 text-center shadow-2xs">
-          <span className="text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 block mb-1 font-medium">
-            Total Poin Akhir Martín
-          </span>
-          <span id="total-martin" className="text-xl sm:text-2xl font-black text-purple-700 dark:text-purple-400 tracking-tight">
+        <div className="bg-purple-50 dark:bg-slate-800/80 p-3 sm:p-3.5 rounded-lg border border-purple-200 dark:border-slate-700 flex items-center justify-between gap-2 transition-all shadow-2xs">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white">
+              Total Poin Akhir Martín
+            </span>
+            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium">
+              (355 + {result.martinSessionPoints !== null ? result.martinSessionPoints : '-'})
+            </span>
+          </div>
+          <span id="total-martin" className="text-base sm:text-xl font-black text-purple-700 dark:text-purple-400 italic tracking-tight shrink-0">
             {martinTotal} poin
           </span>
-          <span className="text-[10px] text-gray-500 dark:text-gray-400 block mt-0.5">
-            (355 + {result.martinSessionPoints !== null ? result.martinSessionPoints : '-'})
-          </span>
         </div>
 
-        <div className="bg-purple-50 dark:bg-slate-800/80 p-3 sm:p-4 rounded-lg border border-purple-200 dark:border-slate-700 text-center shadow-2xs">
-          <span className="text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 block mb-1 font-medium">
-            Total Poin Akhir Bezzecchi
-          </span>
-          <span id="total-bez" className="text-xl sm:text-2xl font-black text-purple-700 dark:text-purple-400 tracking-tight">
+        <div className="bg-purple-50 dark:bg-slate-800/80 p-3 sm:p-3.5 rounded-lg border border-purple-200 dark:border-slate-700 flex items-center justify-between gap-2 transition-all shadow-2xs">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white">
+              Total Poin Akhir Bezzecchi
+            </span>
+            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium">
+              (332 + {result.bezSessionPoints !== null ? result.bezSessionPoints : '-'})
+            </span>
+          </div>
+          <span id="total-bez" className="text-base sm:text-xl font-black text-purple-700 dark:text-purple-400 italic tracking-tight shrink-0">
             {bezTotal} poin
-          </span>
-          <span className="text-[10px] text-gray-500 dark:text-gray-400 block mt-0.5">
-            (332 + {result.bezSessionPoints !== null ? result.bezSessionPoints : '-'})
           </span>
         </div>
       </div>
@@ -291,79 +297,79 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
           </div>
         )}
 
-        {/* Text Details Description below the image */}
-        <div className="p-3.5 sm:p-5">
-          <p id="status-desc" className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-            {!result.hasSelection
-              ? 'belum ada memilih poin atau posisi finish. Silakan tentukan opsi total poin atau pilih posisi finis (Sprint Race & Race Utama) untuk Marc Márquez, Jorge Martín, dan Marco Bezzecchi pada menu kalkulator di atas guna melihat perolehan poin dan skenario juara dunia MotoGP 2026.'
-              : isChampion
-              ? 'Keunggulan poin sudah mencapai target mutlak (minimal 74 dari Martin dan 75 dari Bezzecchi) di seri MotoGP Qatar! Marc Márquez secara matematis telah mengunci gelar Juara Dunia MotoGP 2026!'
-              : 'Hitungan poin akhir keseluruhan, target mutlak Marc Marquez adalah mengakhiri seri MotoGP Qatar dengan keunggulan minimal 74 poin unggul dari Martin dan 75 poin unggul dari Bezzecchi. Karena target belum terpenuhi di Qatar, perebutan gelar juara dunia berlanjut dengan Marc melaju di 2 seri sisa: Sirkuit Algarve Portimão (Portugal) dan Sirkuit Ricardo Tormo (Valencia).'}
-          </p>
+        {/* Text Details Description / Circuit Maps below the image */}
+        {(!result.hasSelection || (!isChampion && result.hasSelection)) && (
+          <div className="p-3.5 sm:p-5">
+            {!result.hasSelection && (
+              <p id="status-desc" className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                belum ada memilih poin atau posisi finish. Silakan tentukan opsi total poin atau pilih posisi finis (Sprint Race & Race Utama) untuk Marc Márquez, Jorge Martín, dan Marco Bezzecchi pada menu kalkulator di atas guna melihat perolehan poin dan skenario juara dunia MotoGP 2026.
+              </p>
+            )}
 
-          {/* If NOT clenched and HAS selection: Show Circuit Maps for Portugal & Valencia */}
-          {result.hasSelection && !isChampion && (
-            <div className="mt-4 pt-3.5 border-t border-gray-200 dark:border-slate-800">
-              <div className="flex items-center justify-between mb-2.5">
-                <span className="text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                  Peta 2 Sirkuit Penentu Tersisa:
-                </span>
-                <span className="text-[10px] text-gray-500 dark:text-gray-400">Maks. 74 Poin Tersedia</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {/* Circuit 1: Portimao Portugal */}
-                <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
-                  <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 dark:border-slate-800 pb-1.5">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm">🇵🇹</span>
-                      <span className="text-xs font-bold text-gray-900 dark:text-white">Sirkuit Portimão</span>
-                    </div>
-                    <span className="text-[9px] font-semibold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/60 px-1.5 py-0.5 rounded border border-red-200 dark:border-red-900/50">
-                      GP Portugal (Seri 21)
-                    </span>
-                  </div>
-                  <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 dark:bg-slate-950 p-1">
-                    <img
-                      src={PORTUGAL_TRACK_IMG}
-                      alt="Peta Sirkuit Autódromo Internacional do Algarve Portimão Portugal"
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  </div>
-                  <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400">
-                    <span>15 Tikungan</span>
-                    <span>Panjang: 4.592 km</span>
-                  </div>
+            {/* If NOT clenched and HAS selection: Show Circuit Maps for Portugal & Valencia */}
+            {result.hasSelection && !isChampion && (
+              <div>
+                <div className="flex items-center justify-between mb-2.5">
+                  <span className="text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+                    Peta 2 Sirkuit Penentu Tersisa:
+                  </span>
+                  <span className="text-[10px] text-gray-500 dark:text-gray-400">Maks. 74 Poin Tersedia</span>
                 </div>
 
-                {/* Circuit 2: Valencia Ricardo Tormo */}
-                <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
-                  <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 dark:border-slate-800 pb-1.5">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm">🇪🇸</span>
-                      <span className="text-xs font-bold text-gray-900 dark:text-white">Sirkuit Valencia</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Circuit 1: Portimao Portugal */}
+                  <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
+                    <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 dark:border-slate-800 pb-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm">🇵🇹</span>
+                        <span className="text-xs font-bold text-gray-900 dark:text-white">Sirkuit Portimão</span>
+                      </div>
+                      <span className="text-[9px] font-semibold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/60 px-1.5 py-0.5 rounded border border-red-200 dark:border-red-900/50">
+                        GP Portugal (Seri 21)
+                      </span>
                     </div>
-                    <span className="text-[9px] font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-900/50">
-                      GP Valencia (Seri 22)
-                    </span>
+                    <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 dark:bg-slate-950 p-1">
+                      <img
+                        src={PORTUGAL_TRACK_IMG}
+                        alt="Peta Sirkuit Autódromo Internacional do Algarve Portimão Portugal"
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
+                    <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400">
+                      <span>15 Tikungan</span>
+                      <span>Panjang: 4.592 km</span>
+                    </div>
                   </div>
-                  <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 dark:bg-slate-950 p-1">
-                    <img
-                      src={VALENCIA_TRACK_IMG}
-                      alt="Peta Sirkuit Ricardo Tormo Valencia"
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  </div>
-                  <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400">
-                    <span>14 Tikungan</span>
-                    <span>Panjang: 4.005 km</span>
+
+                  {/* Circuit 2: Valencia Ricardo Tormo */}
+                  <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
+                    <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 dark:border-slate-800 pb-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm">🇪🇸</span>
+                        <span className="text-xs font-bold text-gray-900 dark:text-white">Sirkuit Valencia</span>
+                      </div>
+                      <span className="text-[9px] font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-900/50">
+                        GP Valencia (Seri 22)
+                      </span>
+                    </div>
+                    <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 dark:bg-slate-950 p-1">
+                      <img
+                        src={VALENCIA_TRACK_IMG}
+                        alt="Peta Sirkuit Ricardo Tormo Valencia"
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
+                    <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400">
+                      <span>14 Tikungan</span>
+                      <span>Panjang: 4.005 km</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
