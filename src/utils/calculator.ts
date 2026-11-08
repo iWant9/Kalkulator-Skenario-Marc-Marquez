@@ -1,7 +1,7 @@
 import { AppState, CalculationResult, RacePositionOption, RiderConfig, RiderId, RiderState } from '../types/motogp';
 
 export const CLINCH_MARTIN = 74;
-export const CLINCH_BEZ = 74;
+export const CLINCH_BEZ = 75;
 
 export const BASE_STANDINGS: Record<RiderId, number> = {
   marc: 399,
