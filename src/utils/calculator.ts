@@ -242,3 +242,65 @@ export function isPositionTaken(
 
   return { taken: false };
 }
+
+export function generateShareText(appState: AppState, result: CalculationResult): string {
+  const getRiderDetail = (id: RiderId, name: string, total: number) => {
+    const state = appState[id];
+    if (state.mode === 'posisi') {
+      const sprintLabel = SPRINT_OPTIONS.find((opt) => opt.points === state.sprintPoints)?.position || (state.sprintPoints !== null ? `${state.sprintPoints}p` : '-');
+      const mainLabel = MAIN_OPTIONS.find((opt) => opt.points === state.mainPoints)?.position || (state.mainPoints !== null ? `${state.mainPoints}p` : '-');
+      return `${name}: ${total} pts (Sprint ${sprintLabel}, Utama ${mainLabel})`;
+    }
+    return `${name}: ${total} pts (Total pilihan: ${state.totalPoints ?? 0} pts)`;
+  };
+
+  const marcInfo = getRiderDetail('marc', '🔴 Marc Márquez (#93)', result.marcTotal);
+  const martinInfo = getRiderDetail('martin', '🟣 Jorge Martín (#89)', result.martinTotal);
+  const bezInfo = getRiderDetail('bez', '🟣 Marco Bezzecchi (#72)', result.bezTotal);
+
+  const statusText = !result.hasSelection
+    ? 'ℹ️ STATUS: Belum ada poin atau posisi balapan yang dipilih.'
+    : result.isChampion
+    ? '🏆 STATUS: GELAR JUARA DUNIA TERKUNCI! Marc Márquez Resmi Juara Dunia MotoGP 2026! 🎉'
+    : '⚠️ STATUS: GELAR BELUM TERKUNCI. Perebutan gelar berlanjut ke GP Portugal & GP Valencia!';
+
+  return `🏁 SKENARIO JUARA DUNIA MOTOGP 2026 (Seri Qatar) 🏁
+by iWant MotoLab
+
+📊 Hasil Perolehan Poin Akhir:
+• ${marcInfo}
+• ${martinInfo} [Selisih dari Marc: ${result.advMartin} pts]
+• ${bezInfo} [Selisih dari Marc: ${result.advBez} pts]
+
+${statusText}
+
+Simulasi skenario balapan MotoGP 2026 di iWant MotoLab!`;
+}
+
+export async function copyToClipboard(text: string): Promise<boolean> {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (e) {
+    console.warn('navigator.clipboard.writeText failed, trying fallback', e);
+  }
+
+  try {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    const successful = document.execCommand('copy');
+    textArea.remove();
+    return successful;
+  } catch (err) {
+    console.error('Clipboard copy fallback failed', err);
+    return false;
+  }
+}

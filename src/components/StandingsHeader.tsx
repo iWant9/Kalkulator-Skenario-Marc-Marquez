@@ -1,13 +1,22 @@
 import React from 'react';
 import { BASE_STANDINGS } from '../utils/calculator';
-import { RotateCcw } from 'lucide-react';
+import { Check, RotateCcw, Share2 } from 'lucide-react';
 
 interface StandingsHeaderProps {
   onOpenSupport?: () => void;
   onReset?: () => void;
+  onShare?: () => void;
+  copied?: boolean;
+  hasSelection?: boolean;
 }
 
-export const StandingsHeader: React.FC<StandingsHeaderProps> = ({ onOpenSupport, onReset }) => {
+export const StandingsHeader: React.FC<StandingsHeaderProps> = ({
+  onOpenSupport,
+  onReset,
+  onShare,
+  copied = false,
+  hasSelection = true,
+}) => {
   return (
     <div className="mb-5">
       {/* Kotak Skenario Juara Dunia MotoGP - Modern Racing Style */}
@@ -38,8 +47,39 @@ export const StandingsHeader: React.FC<StandingsHeaderProps> = ({ onOpenSupport,
         </p>
       </div>
 
-      {/* Tombol Dukung Creator dan Reset Pilihan */}
+      {/* Tombol Action (Dukung, Share, Reset) */}
       <div className="flex flex-wrap items-center gap-2.5 mb-3.5">
+        {onShare && (
+          <button
+            type="button"
+            onClick={onShare}
+            disabled={!hasSelection}
+            aria-label="Bagikan hasil skenario ke clipboard"
+            className={`inline-flex items-center gap-2 ${
+              copied
+                ? 'bg-blue-600 dark:bg-blue-600 text-white'
+                : 'bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 disabled:bg-slate-300 dark:disabled:bg-slate-800 text-white disabled:text-slate-500 dark:disabled:text-slate-500'
+            } font-bold text-xs sm:text-sm px-4 py-2 sm:py-2.5 rounded-lg shadow-sm hover:shadow-md disabled:shadow-none transition-all cursor-pointer disabled:cursor-not-allowed group`}
+            title={
+              hasSelection
+                ? 'Bagikan ringkasan skenario poin'
+                : 'Pilih posisi atau poin balapan terlebih dahulu untuk membagikan hasil'
+            }
+          >
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-white animate-bounce" />
+                <span>Ringkasan Tersalin!</span>
+              </>
+            ) : (
+              <>
+                <Share2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <span>Bagikan Hasil</span>
+              </>
+            )}
+          </button>
+        )}
+
         {onOpenSupport && (
           <button
             type="button"

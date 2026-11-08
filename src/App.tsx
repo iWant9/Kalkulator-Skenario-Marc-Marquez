@@ -5,6 +5,8 @@ import {
   INITIAL_APP_STATE,
   RIDER_CONFIGS,
   calculateScenario,
+  copyToClipboard,
+  generateShareText,
   isPositionTaken,
   MAIN_OPTIONS,
   SPRINT_OPTIONS,
@@ -15,6 +17,7 @@ import { RiderCard } from './components/RiderCard';
 import { ResultsPanel } from './components/ResultsPanel';
 import { RulesExplanation } from './components/RulesExplanation';
 import { SupportCreatorModal } from './components/SupportCreatorModal';
+import { ShareModal } from './components/ShareModal';
 
 const STORAGE_KEY = 'motogp_simulator_state_v2';
 const DARK_MODE_KEY = 'motogp_dark_mode';
@@ -54,6 +57,8 @@ export default function App() {
 
   const [showRulesModal, setShowRulesModal] = useState(false);
   const [showSupportModal, setShowSupportModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // Sync state to localStorage
   useEffect(() => {
@@ -208,6 +213,11 @@ export default function App() {
 
   const calculationResult = calculateScenario(appState);
 
+  const handleShare = () => {
+    if (!calculationResult.hasSelection) return;
+    setShowShareModal(true);
+  };
+
   return (
     <div className="antialiased min-h-screen pb-12 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       <Header
@@ -220,6 +230,9 @@ export default function App() {
         <StandingsHeader
           onOpenSupport={() => setShowSupportModal(true)}
           onReset={handleReset}
+          onShare={handleShare}
+          copied={copied}
+          hasSelection={calculationResult.hasSelection}
         />
 
         {/* Calculator Main Card */}
@@ -265,7 +278,11 @@ export default function App() {
             />
 
             {/* Results Section */}
-            <ResultsPanel result={calculationResult} />
+            <ResultsPanel
+              result={calculationResult}
+              onShare={handleShare}
+              copied={copied}
+            />
           </form>
         </div>
       </main>
@@ -278,6 +295,13 @@ export default function App() {
       <SupportCreatorModal
         isOpen={showSupportModal}
         onClose={() => setShowSupportModal(false)}
+      />
+
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        appState={appState}
+        result={calculationResult}
       />
     </div>
   );

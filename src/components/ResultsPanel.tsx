@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { CalculationResult } from '../types/motogp';
 import { CLINCH_BEZ, CLINCH_MARTIN } from '../utils/calculator';
-import { Award, CheckCircle2, Info, Trophy, XCircle } from 'lucide-react';
+import { Award, Check, CheckCircle2, Info, Share2, Trophy, XCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const CHAMPION_IMG = '/assets/aistudio/MM93_6ad47e61.webp';
@@ -11,9 +11,15 @@ const VALENCIA_TRACK_IMG = '/assets/aistudio/images_9a3888a0.png';
 
 interface ResultsPanelProps {
   result: CalculationResult;
+  onShare?: () => void;
+  copied?: boolean;
 }
 
-export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
+export const ResultsPanel: React.FC<ResultsPanelProps> = ({
+  result,
+  onShare,
+  copied = false,
+}) => {
   const {
     marcTotal,
     martinTotal,
@@ -371,6 +377,34 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
           </div>
         )}
       </div>
+
+      {/* Action Share Button below results (Only available when selections are made) */}
+      {onShare && result.hasSelection && (
+        <div className="mt-4 flex justify-center">
+          <button
+            type="button"
+            onClick={onShare}
+            aria-label="Bagikan ringkasan skenario ke clipboard"
+            className={`w-full sm:w-auto inline-flex items-center justify-center gap-2.5 ${
+              copied
+                ? 'bg-blue-600 dark:bg-blue-600 text-white'
+                : 'bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white'
+            } font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer group`}
+          >
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-white animate-bounce" />
+                <span>Ringkasan Tersalin ke Clipboard!</span>
+              </>
+            ) : (
+              <>
+                <Share2 className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                <span>Bagikan Ringkasan Hasil Skenario</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
