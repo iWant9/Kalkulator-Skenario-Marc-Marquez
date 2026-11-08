@@ -123,20 +123,22 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         ? `${spOpt.position} (${spOpt.points}p)`
         : st.sprintPoints !== null
         ? `${st.sprintPoints}p`
-        : 'Belum Pilih';
+        : '0p (DNF)';
       const mpText = mpOpt
         ? `${mpOpt.position} (${mpOpt.points}p)`
         : st.mainPoints !== null
         ? `${st.mainPoints}p`
-        : 'Belum Pilih';
+        : '0p (DNF)';
 
       return (
         <div className="flex items-center gap-1.5 flex-wrap mt-1">
-          <span className="text-[10px] font-bold bg-white text-gray-800 border border-gray-300 px-2 py-0.5 rounded shadow-2xs">
-            Sprint: <strong className="text-red-600 font-black">{spText}</strong>
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-white text-gray-800 border border-gray-300 px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
+            <span className="text-gray-500 font-semibold">Sprint:</span>
+            <strong className="text-red-600 font-extrabold">{spText}</strong>
           </span>
-          <span className="text-[10px] font-bold bg-white text-gray-800 border border-gray-300 px-2 py-0.5 rounded shadow-2xs">
-            Race Utama: <strong className="text-red-600 font-black">{mpText}</strong>
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-white text-gray-800 border border-gray-300 px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
+            <span className="text-gray-500 font-semibold">Race Utama:</span>
+            <strong className="text-red-600 font-extrabold">{mpText}</strong>
           </span>
         </div>
       );
@@ -144,8 +146,9 @@ export const ShareModal: React.FC<ShareModalProps> = ({
 
     return (
       <div className="flex items-center gap-1.5 flex-wrap mt-1">
-        <span className="text-[10px] font-bold bg-white text-gray-800 border border-purple-300 px-2.5 py-0.5 rounded shadow-2xs">
-          ⚡ Total Poin Pilihan Qatar: <strong className="text-purple-700 font-black">+{st.totalPoints ?? 0} pts</strong>
+        <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-white text-purple-900 border border-purple-300 px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
+          <span className="text-gray-500 font-semibold">Total Qatar:</span>
+          <strong className="text-purple-700 font-extrabold">+{st.totalPoints ?? 0} pts</strong>
         </span>
       </div>
     );
