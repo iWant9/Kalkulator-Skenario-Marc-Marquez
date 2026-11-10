@@ -1,5 +1,5 @@
 export type RiderId = 'marc' | 'martin' | 'bez';
-export type CalculationMode = 'total' | 'posisi';
+export type SimulationMode = 'sprint' | 'semua';
 
 export interface RiderConfig {
   id: RiderId;
@@ -18,16 +18,11 @@ export interface RiderConfig {
     textLight: string;
     textDark: string;
   };
-  totalPresets: number[];
   defaultSprint: number;
   defaultMain: number;
-  defaultTotal: number;
-  defaultMode: CalculationMode;
 }
 
 export interface RiderState {
-  mode: CalculationMode;
-  totalPoints: number | null;
   sprintPoints: number | null;
   mainPoints: number | null;
   isMinimized: boolean;
@@ -54,4 +49,6 @@ export interface CalculationResult {
   isBezClenched: boolean;
   isChampion: boolean;
   hasSelection: boolean;
+  clinchThreshold: number;
+  simulationMode: SimulationMode;
 }

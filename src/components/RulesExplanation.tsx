@@ -30,30 +30,27 @@ export const RulesExplanation: React.FC<RulesExplanationProps> = ({ isOpen, onCl
         </div>
 
         <div className="space-y-4 text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-          <div className="bg-red-50 dark:bg-red-950/40 p-3 rounded-lg border border-red-200 dark:border-red-900/50">
-            <h4 className="font-bold text-red-700 dark:text-red-400 mb-1">Kenapa Target 74 Poin vs Martin?</h4>
-            <p>
-              Setelah Seri Qatar, tersisa 2 seri balapan MotoGP berikutnya. Maksimal poin per seri adalah 37 poin (12 Sprint + 25 Race Utama), sehingga total poin maksimal yang dapat diraih rival di 2 seri sisa adalah <strong>74 poin</strong>. Jika Marc unggul minimal 74 poin dan memiliki jumlah kemenangan GP utama lebih banyak, gelar otomatis terkunci.
-            </p>
-          </div>
-
-          <div className="bg-purple-50 dark:bg-slate-800/80 p-3 rounded-lg border border-purple-200 dark:border-slate-700">
-            <h4 className="font-bold text-purple-700 dark:text-purple-400 mb-1">Kenapa Target 75 Poin vs Bezzecchi?</h4>
-            <p>
-              Dengan target keunggulan <strong>75 poin</strong> ({CLINCH_BEZ} pts), secara mutlak Marco Bezzecchi tidak dapat lagi mengejar Marc Márquez dalam keadaan apapun di 2 seri sisa.
-            </p>
+          <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 rounded-lg p-3 text-gray-700 dark:text-gray-300">
+            <h4 className="font-bold text-gray-900 dark:text-white mb-1.5">Keterangan Persyaratan Kunci Gelar:</h4>
+            <div className="space-y-1.5 leading-relaxed">
+              <p>
+                • <strong>Di Sprint Race:</strong> Poin akhir Marc Márquez setelah Sprint Race harus unggul minimal <strong>62 poin</strong> dari total poin Jorge Martín dan Marco Bezzecchi untuk mengunci gelar juara dunia di hari Sabtu.
+              </p>
+              <p>
+                • <strong>Di Race Utama / Akhir Pekan:</strong> Jika gelar belum terkunci di Sprint, poin akhir Marc Márquez setelah balapan utama hari Minggu harus unggul minimal <strong>37 poin</strong> dari total poin Jorge Martín dan Marco Bezzecchi.
+              </p>
+              <p className="pt-1.5 border-t border-amber-200/50 dark:border-amber-900/50 text-[10px] sm:text-xs italic opacity-90">
+                * Jika jumlah poin sama (seri) setelah sisa poin maksimum ditambahkan ke rival, Marc Márquez tetap mengunci gelar juara berdasarkan <strong>Aturan Tie-Break</strong> (unggul jumlah kemenangan).
+              </p>
+            </div>
           </div>
 
           <div>
             <h4 className="font-bold text-gray-900 dark:text-white mb-1.5">Sistem Poin Resmi MotoGP:</h4>
-            <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="grid grid-cols-1 gap-2 text-xs">
               <div className="border border-gray-200 dark:border-slate-800 rounded p-2 bg-gray-50 dark:bg-slate-800/60">
-                <span className="font-bold text-red-600 dark:text-red-400 block mb-1">Sprint Race (Sabtu)</span>
+                <span className="font-bold text-red-600 dark:text-red-400 block mb-1">Sprint Race</span>
                 P1: 12, P2: 9, P3: 7, P4: 6, P5: 5, P6: 4, P7: 3, P8: 2, P9: 1 poin.
-              </div>
-              <div className="border border-gray-200 dark:border-slate-800 rounded p-2 bg-gray-50 dark:bg-slate-800/60">
-                <span className="font-bold text-blue-600 dark:text-blue-400 block mb-1">Race Utama (Minggu)</span>
-                P1: 25, P2: 20, P3: 16, P4: 13, P5: 11, P6: 10, P7: 9, P8: 8, P9: 7, P10: 6, P11: 5, P12: 4, P13: 3, P14: 2, P15: 1 poin.
               </div>
             </div>
           </div>

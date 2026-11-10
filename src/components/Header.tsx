@@ -14,9 +14,9 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, onToggleDarkMode }) =>
       <div className="max-w-3xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img
-            src="/assets/aistudio/lg_44226655.png"
+            src={darkMode ? '/assets/aistudio/iWantMotoLab_logo_darkmode.png' : '/assets/aistudio/iWantMotoLab_logo_black_text_5e95104e.png'}
             alt="Logo iWant MotoLab"
-            className="h-7 sm:h-9 w-auto object-contain"
+            className="h-7 sm:h-9 w-auto object-contain transition-all duration-300"
           />
           <span className="hidden sm:inline-block w-px h-5 bg-gray-200 dark:bg-slate-700 mx-1" />
           <div className="text-[10px] sm:text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest hidden sm:block">

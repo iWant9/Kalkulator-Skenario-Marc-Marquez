@@ -1,12 +1,14 @@
-import { AppState, CalculationResult, RacePositionOption, RiderConfig, RiderId, RiderState } from '../types/motogp';
+import { AppState, CalculationResult, RacePositionOption, RiderConfig, RiderId, RiderState, SimulationMode } from '../types/motogp';
 
-export const CLINCH_MARTIN = 74;
-export const CLINCH_BEZ = 75;
+export const CLINCH_SPRINT = 62;
+export const CLINCH_FINAL = 37;
+export const CLINCH_MARTIN = CLINCH_FINAL;
+export const CLINCH_BEZ = CLINCH_FINAL;
 
 export const BASE_STANDINGS: Record<RiderId, number> = {
-  marc: 399,
-  martin: 355,
-  bez: 332,
+  marc: 431,
+  martin: 371,
+  bez: 357,
 };
 
 export const SPRINT_OPTIONS: RacePositionOption[] = [
@@ -58,11 +60,8 @@ export const RIDER_CONFIGS: Record<RiderId, RiderConfig> = {
       textLight: 'text-red-600',
       textDark: 'text-gray-900',
     },
-    totalPresets: [0, 10, 20, 29, 37],
     defaultSprint: 9, // P2
     defaultMain: 20,   // P2
-    defaultTotal: 29,
-    defaultMode: 'posisi',
   },
   martin: {
     id: 'martin',
@@ -70,7 +69,7 @@ export const RIDER_CONFIGS: Record<RiderId, RiderConfig> = {
     number: '89',
     role: 'Peringkat 2 Klasemen',
     basePoints: BASE_STANDINGS.martin,
-    gapText: 'Gap: -44 pts',
+    gapText: 'Gap: -60 pts',
     theme: {
       accent: '#6b21a8',
       bgBadge: 'bg-purple-600',
@@ -81,11 +80,8 @@ export const RIDER_CONFIGS: Record<RiderId, RiderConfig> = {
       textLight: 'text-purple-600',
       textDark: 'text-gray-900',
     },
-    totalPresets: [0, 2, 4, 7, 12],
     defaultSprint: 12, // P1
     defaultMain: 25,   // P1
-    defaultTotal: 12,
-    defaultMode: 'total',
   },
   bez: {
     id: 'bez',
@@ -93,7 +89,7 @@ export const RIDER_CONFIGS: Record<RiderId, RiderConfig> = {
     number: '72',
     role: 'Peringkat 3 Klasemen',
     basePoints: BASE_STANDINGS.bez,
-    gapText: 'Gap: -67 pts',
+    gapText: 'Gap: -74 pts',
     theme: {
       accent: '#6b21a8',
       bgBadge: 'bg-purple-600',
@@ -104,32 +100,23 @@ export const RIDER_CONFIGS: Record<RiderId, RiderConfig> = {
       textLight: 'text-purple-600',
       textDark: 'text-gray-900',
     },
-    totalPresets: [0, 10, 22, 24, 29, 37],
     defaultSprint: 12, // P1
     defaultMain: 25,   // P1
-    defaultTotal: 37,
-    defaultMode: 'total',
   },
 };
 
 export const INITIAL_APP_STATE: AppState = {
   marc: {
-    mode: 'posisi',
-    totalPoints: 29,
     sprintPoints: 9,
     mainPoints: 20,
     isMinimized: false,
   },
   martin: {
-    mode: 'total',
-    totalPoints: 12,
     sprintPoints: 12,
     mainPoints: 25,
     isMinimized: false,
   },
   bez: {
-    mode: 'total',
-    totalPoints: 37,
     sprintPoints: 12,
     mainPoints: 25,
     isMinimized: false,
@@ -138,22 +125,16 @@ export const INITIAL_APP_STATE: AppState = {
 
 export const EMPTY_APP_STATE: AppState = {
   marc: {
-    mode: 'posisi',
-    totalPoints: null,
     sprintPoints: null,
     mainPoints: null,
     isMinimized: false,
   },
   martin: {
-    mode: 'total',
-    totalPoints: null,
     sprintPoints: null,
     mainPoints: null,
     isMinimized: false,
   },
   bez: {
-    mode: 'total',
-    totalPoints: null,
     sprintPoints: null,
     mainPoints: null,
     isMinimized: false,
@@ -161,31 +142,35 @@ export const EMPTY_APP_STATE: AppState = {
 };
 
 export function isRiderSelected(riderState: RiderState): boolean {
-  if (riderState.mode === 'posisi') {
-    return riderState.sprintPoints !== null || riderState.mainPoints !== null;
-  }
-  return riderState.totalPoints !== null;
+  return riderState.sprintPoints !== null || riderState.mainPoints !== null;
 }
 
 export function hasUserSelectedAny(state: AppState): boolean {
   return isRiderSelected(state.marc) || isRiderSelected(state.martin) || isRiderSelected(state.bez);
 }
 
-export function calculateRiderSessionPoints(riderState: RiderState): number | null {
-  if (riderState.mode === 'posisi') {
-    if (riderState.sprintPoints === null && riderState.mainPoints === null) {
-      return null;
-    }
-    return (riderState.sprintPoints ?? 0) + (riderState.mainPoints ?? 0);
+export function calculateRiderSessionPoints(riderState: RiderState, mode: SimulationMode = 'semua'): number | null {
+  if (mode === 'sprint') {
+    return riderState.sprintPoints;
   }
-  return riderState.totalPoints;
+  if (riderState.sprintPoints === null && riderState.mainPoints === null) {
+    return null;
+  }
+  return (riderState.sprintPoints ?? 0) + (riderState.mainPoints ?? 0);
 }
 
-export function calculateScenario(state: AppState): CalculationResult {
-  const hasSelection = hasUserSelectedAny(state);
-  const marcSessionPoints = calculateRiderSessionPoints(state.marc);
-  const martinSessionPoints = calculateRiderSessionPoints(state.martin);
-  const bezSessionPoints = calculateRiderSessionPoints(state.bez);
+export function hasUserSelectedInMode(state: AppState, mode: SimulationMode = 'semua'): boolean {
+  if (mode === 'sprint') {
+    return state.marc.sprintPoints !== null || state.martin.sprintPoints !== null || state.bez.sprintPoints !== null;
+  }
+  return hasUserSelectedAny(state);
+}
+
+export function calculateScenario(state: AppState, simulationMode: SimulationMode = 'semua'): CalculationResult {
+  const hasSelection = hasUserSelectedInMode(state, simulationMode);
+  const marcSessionPoints = calculateRiderSessionPoints(state.marc, simulationMode);
+  const martinSessionPoints = calculateRiderSessionPoints(state.martin, simulationMode);
+  const bezSessionPoints = calculateRiderSessionPoints(state.bez, simulationMode);
 
   const marcTotal = BASE_STANDINGS.marc + (marcSessionPoints ?? 0);
   const martinTotal = BASE_STANDINGS.martin + (martinSessionPoints ?? 0);
@@ -194,9 +179,13 @@ export function calculateScenario(state: AppState): CalculationResult {
   const advMartin = marcTotal - martinTotal;
   const advBez = marcTotal - bezTotal;
 
-  // Title can only be clinched if actual selections were made
-  const isMartinClenched = hasSelection && advMartin >= CLINCH_MARTIN;
-  const isBezClenched = hasSelection && advBez >= CLINCH_BEZ;
+  // Ketentuan rumus kalkulator:
+  // - "sprint race": Poin akhir Marc Márquez setelah Sprint Race harus unggul minimal 62 poin dari total poin Jorge Martín dan Marco Bezzecchi untuk mengunci gelar juara dunia di hari Sabtu.
+  // - "semua race": Poin akhir Marc Márquez setelah balapan utama hari Minggu harus unggul minimal 37 poin dari total poin Jorge Martín dan Marco Bezzecchi.
+  const clinchThreshold = simulationMode === 'sprint' ? CLINCH_SPRINT : CLINCH_FINAL;
+
+  const isMartinClenched = hasSelection && advMartin >= clinchThreshold;
+  const isBezClenched = hasSelection && advBez >= clinchThreshold;
   const isChampion = hasSelection && isMartinClenched && isBezClenched;
 
   return {
@@ -212,6 +201,8 @@ export function calculateScenario(state: AppState): CalculationResult {
     isBezClenched,
     isChampion,
     hasSelection,
+    clinchThreshold,
+    simulationMode,
   };
 }
 
@@ -221,7 +212,6 @@ export function isPositionTaken(
   points: number | null,
   currentRiderId: RiderId
 ): { taken: boolean; takenBy?: RiderConfig } {
-  // Unset, DNF or 0 points can be shared
   if (points === null || points === 0) {
     return { taken: false };
   }
@@ -232,11 +222,9 @@ export function isPositionTaken(
 
   for (const otherId of otherRiders) {
     const otherState = state[otherId];
-    if (otherState.mode === 'posisi') {
-      const otherPoints = session === 'sprint' ? otherState.sprintPoints : otherState.mainPoints;
-      if (otherPoints === points) {
-        return { taken: true, takenBy: RIDER_CONFIGS[otherId] };
-      }
+    const otherPoints = session === 'sprint' ? otherState.sprintPoints : otherState.mainPoints;
+    if (otherPoints === points) {
+      return { taken: true, takenBy: RIDER_CONFIGS[otherId] };
     }
   }
 
@@ -246,25 +234,27 @@ export function isPositionTaken(
 export function generateShareText(appState: AppState, result: CalculationResult): string {
   const getRiderDetail = (id: RiderId, name: string, total: number) => {
     const state = appState[id];
-    if (state.mode === 'posisi') {
-      const sprintLabel = SPRINT_OPTIONS.find((opt) => opt.points === state.sprintPoints)?.position || (state.sprintPoints !== null ? `${state.sprintPoints}p` : '-');
-      const mainLabel = MAIN_OPTIONS.find((opt) => opt.points === state.mainPoints)?.position || (state.mainPoints !== null ? `${state.mainPoints}p` : '-');
-      return `${name}: ${total} pts (Sprint ${sprintLabel}, Utama ${mainLabel})`;
-    }
-    return `${name}: ${total} pts (Total pilihan: ${state.totalPoints ?? 0} pts)`;
+    const sprintLabel = SPRINT_OPTIONS.find((opt) => opt.points === state.sprintPoints)?.position || (state.sprintPoints !== null ? `${state.sprintPoints}p` : '-');
+    const mainLabel = MAIN_OPTIONS.find((opt) => opt.points === state.mainPoints)?.position || (state.mainPoints !== null ? `${state.mainPoints}p` : '-');
+    return `${name}: ${total} pts (Sprint ${sprintLabel}, Utama ${mainLabel})`;
   };
 
   const marcInfo = getRiderDetail('marc', '🔴 Marc Márquez (#93)', result.marcTotal);
   const martinInfo = getRiderDetail('martin', '🟣 Jorge Martín (#89)', result.martinTotal);
   const bezInfo = getRiderDetail('bez', '🟣 Marco Bezzecchi (#72)', result.bezTotal);
 
+  const isTieBreak = result.isChampion && (result.advMartin === result.clinchThreshold || result.advBez === result.clinchThreshold);
+
   const statusText = !result.hasSelection
     ? 'ℹ️ STATUS: Belum ada poin atau posisi balapan yang dipilih.'
     : result.isChampion
-    ? '🏆 STATUS: GELAR JUARA DUNIA TERKUNCI! Marc Márquez Resmi Juara Dunia MotoGP 2026! 🎉'
-    : '⚠️ STATUS: GELAR BELUM TERKUNCI. Perebutan gelar berlanjut ke GP Portugal & GP Valencia!';
+    ? `🏆 STATUS: GELAR JUARA DUNIA TERKUNCI! Marc Márquez Resmi Juara Dunia MotoGP 2026! 🎉${isTieBreak ? ' (Aturan Tie-Break)' : ''}`
+    : '⚠️ STATUS: GELAR BELUM TERKUNCI. Marc Marquez lanjut bertarung (melanjutkan race utama Portugal) atau di seri terakhir yaitu di sirkuit Valencia!!';
 
-  return `🏁 SKENARIO JUARA DUNIA MOTOGP 2026 (Seri Qatar) 🏁
+  const modeLabel = result.simulationMode === 'sprint' ? 'Sprint Race (Sabtu)' : 'Semua Race (Portugal)';
+
+  return `🏁 SKENARIO JUARA DUNIA MOTOGP 2026 (Seri Portugal) 🏁
+Mode Simulasi: ${modeLabel}
 by iWant MotoLab
 
 📊 Hasil Perolehan Poin Akhir:

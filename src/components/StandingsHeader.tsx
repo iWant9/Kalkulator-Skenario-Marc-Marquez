@@ -113,10 +113,10 @@ export const StandingsHeader: React.FC<StandingsHeaderProps> = ({
       <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-3 sm:p-4 mb-4 shadow-xs transition-colors">
         <div className="flex items-center justify-between border-b border-gray-100 dark:border-slate-800 pb-2 mb-2.5">
           <h2 className="text-[11px] sm:text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-            Klasemen Poin Sebelum Seri Qatar
+            Klasemen Poin Sebelum Seri Portugal
           </h2>
           <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium hidden sm:inline">
-            Sisa 3 Seri (Maks. 111 poin tersisa di musim)
+            Sisa 2 Seri (Maks. 74 poin tersisa termasuk Portugal)
           </span>
         </div>
 
@@ -151,7 +151,7 @@ export const StandingsHeader: React.FC<StandingsHeaderProps> = ({
             </div>
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <span className="text-[10px] sm:text-[11px] text-red-600 dark:text-red-400 font-bold bg-red-100/90 dark:bg-red-950/60 border border-red-200 dark:border-red-900/50 px-2 py-0.5 rounded">
-                Gap: -44 pts
+                Gap: -{BASE_STANDINGS.marc - BASE_STANDINGS.martin} pts
               </span>
               <span className="text-sm sm:text-base font-black text-purple-700 dark:text-purple-400 italic">
                 {BASE_STANDINGS.martin} pts
@@ -170,7 +170,7 @@ export const StandingsHeader: React.FC<StandingsHeaderProps> = ({
             </div>
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <span className="text-[10px] sm:text-[11px] text-red-600 dark:text-red-400 font-bold bg-red-100/90 dark:bg-red-950/60 border border-red-200 dark:border-red-900/50 px-2 py-0.5 rounded">
-                Gap: -67 pts
+                Gap: -{BASE_STANDINGS.marc - BASE_STANDINGS.bez} pts
               </span>
               <span className="text-sm sm:text-base font-black text-purple-700 dark:text-purple-400 italic">
                 {BASE_STANDINGS.bez} pts

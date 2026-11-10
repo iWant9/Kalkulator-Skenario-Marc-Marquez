@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppState, CalculationMode, RiderId } from './types/motogp';
+import { AppState, RiderId, SimulationMode } from './types/motogp';
 import {
   EMPTY_APP_STATE,
   INITIAL_APP_STATE,
@@ -18,11 +18,15 @@ import { ResultsPanel } from './components/ResultsPanel';
 import { RulesExplanation } from './components/RulesExplanation';
 import { SupportCreatorModal } from './components/SupportCreatorModal';
 import { ShareModal } from './components/ShareModal';
+import { Flag, Lock, Zap } from 'lucide-react';
 
 const STORAGE_KEY = 'motogp_simulator_state_v2';
+const SIMULATION_MODE_KEY = 'motogp_simulation_mode';
 const DARK_MODE_KEY = 'motogp_dark_mode';
 
 export default function App() {
+  const [simulationMode, setSimulationMode] = useState<SimulationMode>('sprint');
+
   const [appState, setAppState] = useState<AppState>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -83,63 +87,6 @@ export default function App() {
     }
   }, [darkMode]);
 
-  // Mode change handler
-  const handleModeChange = (riderId: RiderId, mode: CalculationMode) => {
-    setAppState((prev) => {
-      const nextState: AppState = {
-        ...prev,
-        [riderId]: {
-          ...prev[riderId],
-          mode,
-        },
-      };
-
-      // If switched to 'posisi', ensure current sprint and main positions don't conflict
-      if (mode === 'posisi') {
-        const curSprint = nextState[riderId].sprintPoints;
-        const curMain = nextState[riderId].mainPoints;
-
-        // Check sprint conflict
-        if (curSprint !== null && curSprint > 0) {
-          const sprintConflict = isPositionTaken(nextState, 'sprint', curSprint, riderId);
-          if (sprintConflict.taken) {
-            const availableSprint = SPRINT_OPTIONS.find(
-              (opt) => !isPositionTaken(nextState, 'sprint', opt.points, riderId).taken
-            );
-            if (availableSprint) {
-              nextState[riderId].sprintPoints = availableSprint.points;
-            }
-          }
-        }
-
-        // Check main conflict
-        if (curMain !== null && curMain > 0) {
-          const mainConflict = isPositionTaken(nextState, 'main', curMain, riderId);
-          if (mainConflict.taken) {
-            const availableMain = MAIN_OPTIONS.find(
-              (opt) => !isPositionTaken(nextState, 'main', opt.points, riderId).taken
-            );
-            if (availableMain) {
-              nextState[riderId].mainPoints = availableMain.points;
-            }
-          }
-        }
-      }
-
-      return nextState;
-    });
-  };
-
-  const handleTotalPointsChange = (riderId: RiderId, pts: number) => {
-    setAppState((prev) => ({
-      ...prev,
-      [riderId]: {
-        ...prev[riderId],
-        totalPoints: pts,
-      },
-    }));
-  };
-
   const handleSprintPointsChange = (riderId: RiderId, pts: number) => {
     setAppState((prev) => {
       const nextState = {
@@ -150,10 +97,9 @@ export default function App() {
         },
       };
 
-      // If another rider was also on this positive position in 'posisi' mode, move them to an available position
       if (pts > 0) {
         (['marc', 'martin', 'bez'] as RiderId[]).forEach((otherId) => {
-          if (otherId !== riderId && nextState[otherId].mode === 'posisi' && nextState[otherId].sprintPoints === pts) {
+          if (otherId !== riderId && nextState[otherId].sprintPoints === pts) {
             const available = SPRINT_OPTIONS.find(
               (opt) => opt.points !== pts && !isPositionTaken(nextState, 'sprint', opt.points, otherId).taken
             );
@@ -181,10 +127,9 @@ export default function App() {
         },
       };
 
-      // If another rider was also on this positive position in 'posisi' mode, move them to an available position
       if (pts > 0) {
         (['marc', 'martin', 'bez'] as RiderId[]).forEach((otherId) => {
-          if (otherId !== riderId && nextState[otherId].mode === 'posisi' && nextState[otherId].mainPoints === pts) {
+          if (otherId !== riderId && nextState[otherId].mainPoints === pts) {
             const available = MAIN_OPTIONS.find(
               (opt) => opt.points !== pts && !isPositionTaken(nextState, 'main', opt.points, otherId).taken
             );
@@ -211,7 +156,16 @@ export default function App() {
     }
   };
 
-  const calculationResult = calculateScenario(appState);
+  // Sync simulation mode to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(SIMULATION_MODE_KEY, simulationMode);
+    } catch (e) {
+      console.error('Failed to save simulation mode to localStorage', e);
+    }
+  }, [simulationMode]);
+
+  const calculationResult = calculateScenario(appState, simulationMode);
 
   const handleShare = () => {
     if (!calculationResult.hasSelection) return;
@@ -237,11 +191,47 @@ export default function App() {
 
         {/* Calculator Main Card */}
         <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl p-3 sm:p-6 md:p-8 shadow-sm transition-colors">
-          <div className="flex items-center justify-between mb-4 sm:mb-6 border-b border-gray-200 dark:border-slate-800 pb-3">
-            <h2 className="motogp-font font-bold text-base sm:text-lg text-gray-900 dark:text-white uppercase tracking-tight">
-              Kalkulator poin Qatar
-            </h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 border-b border-gray-200 dark:border-slate-800 pb-3 gap-3">
+            <div>
+              <h2 className="motogp-font font-bold text-base sm:text-lg text-gray-900 dark:text-white uppercase tracking-tight">
+                Kalkulator poin Portugal
+              </h2>
+              <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                Pilih opsi simulasi: penguncian Sabtu (Sprint) atau penentuan akhir pekan (Semua Race)
+              </p>
+            </div>
+
+            {/* Pilihan 2 Simulasi: "Sprint Race" vs "Semua Race" */}
+            <div className="inline-flex bg-gray-100 dark:bg-slate-800 p-1 rounded-xl border border-gray-200 dark:border-slate-700 shadow-2xs self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => setSimulationMode('sprint')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wide transition-all cursor-pointer ${
+                  simulationMode === 'sprint'
+                    ? 'bg-red-600 text-white shadow-xs scale-[1.02]'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                }`}
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span>Sprint Race</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={true}
+                title="Fitur Semua Race terkunci sementara"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wide opacity-50 cursor-not-allowed text-gray-400 dark:text-gray-500 bg-gray-200/50 dark:bg-slate-700/50 border border-transparent"
+              >
+                <Lock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                <span>Semua Race</span>
+                <span className="text-[9px] font-extrabold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/80 px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-900/50 ml-0.5">
+                  🔒 Terkunci
+                </span>
+              </button>
+            </div>
           </div>
+
+
 
           <form id="calculator-form" onSubmit={(e) => e.preventDefault()}>
             {/* Section 1: Marc Marquez */}
@@ -249,8 +239,7 @@ export default function App() {
               config={RIDER_CONFIGS.marc}
               state={appState.marc}
               appState={appState}
-              onChangeMode={(m) => handleModeChange('marc', m)}
-              onChangeTotalPoints={(p) => handleTotalPointsChange('marc', p)}
+              simulationMode={simulationMode}
               onChangeSprintPoints={(p) => handleSprintPointsChange('marc', p)}
               onChangeMainPoints={(p) => handleMainPointsChange('marc', p)}
             />
@@ -260,8 +249,7 @@ export default function App() {
               config={RIDER_CONFIGS.martin}
               state={appState.martin}
               appState={appState}
-              onChangeMode={(m) => handleModeChange('martin', m)}
-              onChangeTotalPoints={(p) => handleTotalPointsChange('martin', p)}
+              simulationMode={simulationMode}
               onChangeSprintPoints={(p) => handleSprintPointsChange('martin', p)}
               onChangeMainPoints={(p) => handleMainPointsChange('martin', p)}
             />
@@ -271,8 +259,7 @@ export default function App() {
               config={RIDER_CONFIGS.bez}
               state={appState.bez}
               appState={appState}
-              onChangeMode={(m) => handleModeChange('bez', m)}
-              onChangeTotalPoints={(p) => handleTotalPointsChange('bez', p)}
+              simulationMode={simulationMode}
               onChangeSprintPoints={(p) => handleSprintPointsChange('bez', p)}
               onChangeMainPoints={(p) => handleMainPointsChange('bez', p)}
             />

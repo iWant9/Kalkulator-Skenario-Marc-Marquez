@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { CalculationResult } from '../types/motogp';
-import { CLINCH_BEZ, CLINCH_MARTIN } from '../utils/calculator';
+import { BASE_STANDINGS } from '../utils/calculator';
 import { Award, Check, CheckCircle2, Info, Share2, Trophy, XCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -91,8 +91,9 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
   }, [isChampion]);
 
   // Percentage progress toward target (capped between 0 and 100%)
-  const martinProgress = Math.min(Math.max(Math.round((advMartin / CLINCH_MARTIN) * 100), 0), 100);
-  const bezProgress = Math.min(Math.max(Math.round((advBez / CLINCH_BEZ) * 100), 0), 100);
+  const threshold = result.clinchThreshold;
+  const martinProgress = Math.min(Math.max(Math.round((advMartin / threshold) * 100), 0), 100);
+  const bezProgress = Math.min(Math.max(Math.round((advBez / threshold) * 100), 0), 100);
 
   return (
     <div className="pt-4 sm:pt-6 border-t border-gray-200 dark:border-slate-800 transition-colors">
@@ -104,7 +105,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
               Total Poin Akhir Marc
             </span>
             <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium">
-              (399 + {result.marcSessionPoints !== null ? result.marcSessionPoints : '-'})
+              ({BASE_STANDINGS.marc} + {result.marcSessionPoints !== null ? result.marcSessionPoints : '-'})
             </span>
           </div>
           <span id="total-marc" className="text-base sm:text-xl font-black text-red-600 dark:text-red-500 italic tracking-tight shrink-0">
@@ -118,7 +119,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
               Total Poin Akhir Martín
             </span>
             <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium">
-              (355 + {result.martinSessionPoints !== null ? result.martinSessionPoints : '-'})
+              ({BASE_STANDINGS.martin} + {result.martinSessionPoints !== null ? result.martinSessionPoints : '-'})
             </span>
           </div>
           <span id="total-martin" className="text-base sm:text-xl font-black text-purple-700 dark:text-purple-400 italic tracking-tight shrink-0">
@@ -132,7 +133,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
               Total Poin Akhir Bezzecchi
             </span>
             <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 font-medium">
-              (332 + {result.bezSessionPoints !== null ? result.bezSessionPoints : '-'})
+              ({BASE_STANDINGS.bez} + {result.bezSessionPoints !== null ? result.bezSessionPoints : '-'})
             </span>
           </div>
           <span id="total-bez" className="text-base sm:text-xl font-black text-purple-700 dark:text-purple-400 italic tracking-tight shrink-0">
@@ -140,6 +141,40 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
           </span>
         </div>
       </div>
+
+      {/* Info Banner: Syarat Kunci Gelar */}
+      <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 rounded-xl p-4 mb-5 shadow-xs text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <p className="font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+            <Info className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+            Ketentuan
+          </p>
+          <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200">
+            Mode: {result.simulationMode === 'sprint' ? 'Sprint Race' : 'Semua Race'}
+          </span>
+        </div>
+        <div className="space-y-2 leading-relaxed">
+          <div className={`p-2.5 rounded-lg border transition-all ${
+            result.simulationMode === 'sprint'
+              ? 'bg-red-100/70 dark:bg-red-950/40 border-red-300 dark:border-red-900/60 font-medium text-gray-900 dark:text-white'
+              : 'bg-white/60 dark:bg-slate-800/40 border-transparent text-gray-600 dark:text-gray-400 opacity-75'
+          }`}>
+            <span className="font-bold text-red-600 dark:text-red-400">"Sprint Race": </span>
+            Poin akhir Marc Márquez setelah Sprint Race harus unggul minimal <strong>62 poin</strong> dari total poin Jorge Martín dan Marco Bezzecchi untuk mengunci gelar juara dunia di hari Sabtu.
+          </div>
+
+          <div className={`p-2.5 rounded-lg border transition-all ${
+            result.simulationMode === 'semua'
+              ? 'bg-blue-100/70 dark:bg-blue-950/40 border-blue-300 dark:border-blue-900/60 font-medium text-gray-900 dark:text-white'
+              : 'bg-white/60 dark:bg-slate-800/40 border-transparent text-gray-600 dark:text-gray-400 opacity-75'
+          }`}>
+            <span className="font-bold text-blue-600 dark:text-blue-400">"Semua Race": </span>
+            Poin akhir Marc Márquez setelah balapan utama hari Minggu harus unggul minimal <strong>37 poin</strong> dari total poin Jorge Martín dan Marco Bezzecchi.
+          </div>
+        </div>
+      </div>
+
+
 
       {/* Advantage vs Martin */}
       <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-3 sm:p-3.5 mb-2.5 shadow-2xs">
@@ -171,7 +206,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
         </div>
         {!isMartinClenched && (
           <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">
-            Kurang {CLINCH_MARTIN - advMartin} poin untuk mengunci dari Martín
+            Kurang {threshold - advMartin} poin untuk mengunci dari Martín (target: {threshold} poin)
           </p>
         )}
       </div>
@@ -206,7 +241,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
         </div>
         {!isBezClenched && (
           <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">
-            Kurang {CLINCH_BEZ - advBez} poin untuk mengunci dari Bezzecchi
+            Kurang {threshold - advBez} poin untuk mengunci dari Bezzecchi (target: {threshold} poin)
           </p>
         )}
       </div>
@@ -223,8 +258,8 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
           </h3>
           <p className="text-xs sm:text-sm text-gray-100 mt-1 max-w-xl mx-auto font-medium">
             {isChampion
-              ? 'Marc Márquez secara matematis telah mengunci gelar Juara Dunia MotoGP 2026 di GP Qatar!'
-              : 'Perebutan gelar juara dunia berlanjut ke 2 seri sisa: GP Portugal (Portimão) & GP Valencia (Ricardo Tormo).'}
+              ? `Marc Márquez secara matematis telah mengunci gelar Juara Dunia MotoGP 2026 di GP Portugal!${(advMartin === threshold || advBez === threshold) ? ' (Aturan Tie-Break)' : ''}`
+              : 'Marc Marquez lanjut bertarung (melanjutkan race utama Portugal) atau di seri terakhir yaitu di sirkuit Valencia!!'}
           </p>
         </div>
       )}
@@ -296,8 +331,8 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
               </h4>
               <p className="text-xs sm:text-sm text-gray-200 font-medium drop-shadow-sm mt-0.5">
                 {isChampion
-                  ? 'Marc Márquez resmi mengunci gelar Juara Dunia MotoGP 2026!'
-                  : 'Marc Márquez melaju menatap 2 seri penentu: GP Portugal (Portimão) & GP Valencia (Ricardo Tormo)'}
+                  ? `Marc Márquez resmi mengunci gelar Juara Dunia MotoGP 2026!${(advMartin === threshold || advBez === threshold) ? ' (Aturan Tie-Break)' : ''}`
+                  : 'Marc Marquez lanjut bertarung (melanjutkan race utama Portugal) atau di seri terakhir yaitu di sirkuit Valencia!!'}
               </p>
             </div>
           </div>
@@ -308,47 +343,23 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
           <div className="p-3.5 sm:p-5">
             {!result.hasSelection && (
               <p id="status-desc" className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                belum ada memilih poin atau posisi finish. Silakan tentukan opsi total poin atau pilih posisi finis (Sprint Race & Race Utama) untuk Marc Márquez, Jorge Martín, dan Marco Bezzecchi pada menu kalkulator di atas guna melihat perolehan poin dan skenario juara dunia MotoGP 2026.
+                belum ada memilih poin atau posisi finish. Silakan tentukan opsi total poin atau pilih posisi finis Sprint Race untuk Marc Márquez, Jorge Martín, dan Marco Bezzecchi pada menu kalkulator di atas guna melihat perolehan poin dan skenario juara dunia MotoGP 2026.
               </p>
             )}
 
-            {/* If NOT clenched and HAS selection: Show Circuit Maps for Portugal & Valencia */}
+            {/* If NOT clenched and HAS selection: Show Circuit Map for Valencia */}
             {result.hasSelection && !isChampion && (
               <div>
                 <div className="flex items-center justify-between mb-2.5">
                   <span className="text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                    Peta 2 Sirkuit Penentu Tersisa:
+                    Peta Sirkuit Penentu Terakhir:
                   </span>
-                  <span className="text-[10px] text-gray-500 dark:text-gray-400">Maks. 74 Poin Tersedia</span>
+                  <span className="text-[10px] text-gray-500 dark:text-gray-400">Maks. 37 Poin Tersedia di Valencia</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {/* Circuit 1: Portimao Portugal */}
-                  <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
-                    <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 dark:border-slate-800 pb-1.5">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-sm">🇵🇹</span>
-                        <span className="text-xs font-bold text-gray-900 dark:text-white">Sirkuit Portimão</span>
-                      </div>
-                      <span className="text-[9px] font-semibold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/60 px-1.5 py-0.5 rounded border border-red-200 dark:border-red-900/50">
-                        GP Portugal (Seri 21)
-                      </span>
-                    </div>
-                    <div className="aspect-[2/1] w-full flex items-center justify-center overflow-hidden rounded bg-slate-50 dark:bg-slate-950 p-1">
-                      <img
-                        src={PORTUGAL_TRACK_IMG}
-                        alt="Peta Sirkuit Autódromo Internacional do Algarve Portimão Portugal"
-                        className="max-h-full max-w-full object-contain"
-                      />
-                    </div>
-                    <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 dark:text-gray-400">
-                      <span>15 Tikungan</span>
-                      <span>Panjang: 4.592 km</span>
-                    </div>
-                  </div>
-
-                  {/* Circuit 2: Valencia Ricardo Tormo */}
+                <div className="max-w-md mx-auto">
+                  {/* Circuit: Valencia Ricardo Tormo */}
                   <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg p-2.5 shadow-sm flex flex-col justify-between">
                     <div className="flex items-center justify-between mb-1.5 border-b border-gray-100 dark:border-slate-800 pb-1.5">
                       <div className="flex items-center gap-1.5">

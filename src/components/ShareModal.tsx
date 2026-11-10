@@ -2,8 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { AppState, CalculationResult, RiderId } from '../types/motogp';
 import {
   BASE_STANDINGS,
-  CLINCH_BEZ,
-  CLINCH_MARTIN,
   MAIN_OPTIONS,
   SPRINT_OPTIONS,
   copyToClipboard,
@@ -90,7 +88,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       const dataUrl =
         imageSrc || (await toPng(posterRef.current, CAPTURE_OPTIONS));
       const link = document.createElement('a');
-      link.download = `skenario-motogp-2026-qatar.png`;
+      link.download = `skenario-motogp-2026-portugal.png`;
       link.href = dataUrl;
       link.click();
       setStatusMessage('Gambar berhasil diunduh!');
@@ -116,39 +114,28 @@ export const ShareModal: React.FC<ShareModalProps> = ({
 
   const renderRiderBreakdownBadges = (id: RiderId) => {
     const st = appState[id];
-    if (st.mode === 'posisi') {
-      const spOpt = SPRINT_OPTIONS.find((o) => o.points === st.sprintPoints);
-      const mpOpt = MAIN_OPTIONS.find((o) => o.points === st.mainPoints);
-      const spText = spOpt
-        ? `${spOpt.position} (${spOpt.points}p)`
-        : st.sprintPoints !== null
-        ? `${st.sprintPoints}p`
-        : '0p (DNF)';
-      const mpText = mpOpt
-        ? `${mpOpt.position} (${mpOpt.points}p)`
-        : st.mainPoints !== null
-        ? `${st.mainPoints}p`
-        : '0p (DNF)';
-
-      return (
-        <div className="flex items-center gap-1.5 flex-wrap mt-1">
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-white text-gray-800 border border-gray-300 px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
-            <span className="text-gray-500 font-semibold">Sprint:</span>
-            <strong className="text-red-600 font-extrabold">{spText}</strong>
-          </span>
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-white text-gray-800 border border-gray-300 px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
-            <span className="text-gray-500 font-semibold">Race Utama:</span>
-            <strong className="text-red-600 font-extrabold">{mpText}</strong>
-          </span>
-        </div>
-      );
-    }
+    const spOpt = SPRINT_OPTIONS.find((o) => o.points === st.sprintPoints);
+    const mpOpt = MAIN_OPTIONS.find((o) => o.points === st.mainPoints);
+    const spText = spOpt
+      ? `${spOpt.position} (${spOpt.points}p)`
+      : st.sprintPoints !== null
+      ? `${st.sprintPoints}p`
+      : '0p (DNF)';
+    const mpText = mpOpt
+      ? `${mpOpt.position} (${mpOpt.points}p)`
+      : st.mainPoints !== null
+      ? `${st.mainPoints}p`
+      : '0p (DNF)';
 
     return (
       <div className="flex items-center gap-1.5 flex-wrap mt-1">
-        <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-white text-purple-900 border border-purple-300 px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
-          <span className="text-gray-500 font-semibold">Total Qatar:</span>
-          <strong className="text-purple-700 font-extrabold">+{st.totalPoints ?? 0} pts</strong>
+        <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-white text-gray-800 border border-gray-300 px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
+          <span className="text-gray-500 font-semibold">Sprint:</span>
+          <strong className="text-red-600 font-extrabold">{spText}</strong>
+        </span>
+        <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-white text-gray-800 border border-gray-300 px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
+          <span className="text-gray-500 font-semibold">Race Utama:</span>
+          <strong className="text-blue-600 font-extrabold">{mpText}</strong>
         </span>
       </div>
     );
@@ -317,7 +304,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                     {result.isChampion ? 'CHAMPIONSHIP CLINCH' : 'TITLE FIGHT TELEMETRY'}
                   </span>
                   <h3 className="text-lg font-black italic tracking-tight text-white drop-shadow-md mt-0.5 leading-snug">
-                    {result.isChampion ? 'Marc Márquez Juara Dunia MotoGP 2026!' : 'Hasil Perolehan Poin Qatar'}
+                    {result.isChampion ? 'Marc Márquez Juara Dunia MotoGP 2026!' : 'Hasil Perolehan Poin Portugal'}
                   </h3>
                 </div>
                 {result.isChampion && (
@@ -405,7 +392,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                       Selisih dari Marc: {result.advMartin} pts
                     </span>
                     <span className="text-[9px] font-semibold text-gray-500">
-                      (Target Clinch: ≥{CLINCH_MARTIN} pts)
+                      (Target Clinch: ≥{result.clinchThreshold} pts)
                     </span>
                   </div>
                 </div>
@@ -445,7 +432,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                       Selisih dari Marc: {result.advBez} pts
                     </span>
                     <span className="text-[9px] font-semibold text-gray-500">
-                      (Target Clinch: ≥{CLINCH_BEZ} pts)
+                      (Target Clinch: ≥{result.clinchThreshold} pts)
                     </span>
                   </div>
                 </div>
@@ -473,8 +460,8 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                 {!result.hasSelection
                   ? 'Silakan tentukan opsi poin/posisi finis balapan untuk melihat skenario juara.'
                   : result.isChampion
-                  ? 'Marc Márquez secara matematis telah mengunci gelar Juara Dunia MotoGP 2026 di GP Qatar!'
-                  : 'Perebutan gelar berlanjut ke GP Portugal & GP Valencia!'}
+                  ? `Marc Márquez secara matematis telah mengunci gelar Juara Dunia MotoGP 2026 di GP Portugal!${(result.advMartin === result.clinchThreshold || result.advBez === result.clinchThreshold) ? ' (Aturan Tie-Break)' : ''}`
+                  : 'Marc Marquez lanjut bertarung (melanjutkan race utama Portugal) atau di seri terakhir yaitu di sirkuit Valencia!!'}
               </p>
             </div>
 
